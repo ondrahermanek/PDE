@@ -87,11 +87,11 @@ Zdravotnické informační systémy: Medicus, ...
 			- Měl by být kladen důraz na dostupnost API, která sbírají data od doktorů a ukládají je do nemocničních IS (99%).
 			- Dostupnost dokumentace z nemocničního IS už nemusí být tak ostře hlídána (90%).  
 		- **Performance**
-			- Distribuovaný systém vyžaduje už nějakou režii na synchronizaci uzlů, je potřeba minimalizovat velikost a potčet zpráv pro synchronizaci (**Index**), aby systém zvládl v rozumném čase přenášet i dokumentaci na uzel, který si ji vyžádá. *V rozumném čase* znaméná řádově desítky sekund. Horní hranice je minuta až dvě.
+			- Distribuovaný systém vyžaduje už nějakou režii na synchronizaci uzlů, je potřeba minimalizovat velikost a počet zpráv pro synchronizaci (**Index**), aby systém zvládl v rozumném čase přenášet i dokumentaci na uzel, který si ji vyžádá. *V rozumném čase* znaméná řádově desítky sekund. Horní hranice je minuta až dvě.
 		- **Reliability**
 			- Kladen větší důraz a dostupnost WEB API než na systém přednosu dokumentace. 
 		- **Interoperability**
-			- Kladen důraz na jednoduchou změnu implementaci komunikace s centrálním WEB API u doktorských IS. Jednoduché zabezpečené API (https), jednoduché zprávy běžném jazyce (XML).
+			- Kladen důraz na jednoduchou změnu implementaci komunikace s centrálním WEB API u doktorských IS. Jednoduché zabezpečené API (https), jednoduché zprávy ve standardizovaném formátu (XML).
 			- Možnost parsovat interní formáty dokotrských IS na straně cenrálních IS.
 		- **Security**
 			- Systém bude manipulovat s citlivými daty a uchovávat je. Je potřeba
