@@ -87,7 +87,7 @@ Zdravotnické informační systémy: Medicus, ...
 	- *RunTime Qualities*
 		- **Availability**
 			- Měl by být kladen důraz na dostupnost API, která sbírají data od doktorů a ukládají je do nemocničních IS (99%).
-			- Dostupnost dokumentace z nemocničního IS už nemusí být tak ostře hlídána (90%).  
+			- Dostupnost dokumentace z nemocničního IS už nemusí být tak ostře hlídána (95%).  
 		- **Performance**
 			- Distribuovaný systém vyžaduje už nějakou režii na synchronizaci uzlů, je potřeba minimalizovat velikost a počet zpráv pro synchronizaci (**Index**), aby systém zvládl v rozumném čase přenášet i dokumentaci na uzel, který si ji vyžádá. *V rozumném čase* znaméná řádově desítky sekund. Horní hranice je minuta až dvě.
 		- **Reliability**
