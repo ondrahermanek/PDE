@@ -72,4 +72,40 @@ Zdravotnické informační systémy: Medicus, ...
 
 # DÚ 1#
 - Modularizace - schéma základního rozdělení na moduly a jejich vazby
-- Kvalitativní atributy - výkonnost, spolehlivost, škálovatelnost, modifikovatelnost, integrovatelnost
+![](https://raw.github.com/onashackem/PDE/master/doc/ComponentModel.png?login=onashackem&token=bf9fed6fcded562c4f64a474d4f98640)
+
+- [Kvalitativní atributy](http://msdn.microsoft.com/en-us/library/ee658094.aspx)
+	- *Design Qualities*
+		- **Conceptual Integrity**
+			- Takto robustní systém je potřeba dobře rozmyslet a navrhnout, usnanovit jednotný coding style, navrhnout základní postupy při vývoji, strategii a organizaci týmu, ... 
+		- Maintainability
+			- Nebude snadné jednoduše provést aktualizaci distribuovaného systému, takže by se na možná rozšíření mělo myslet už při návrhu (například počítat s podporou obrázků v dokumentaci pacienta).  
+		- Reusability
+			- Systém bude nabízet API pro komunikaci s ostatnímy systémy
+	- *RunTime Qualities*
+		- **Availability**
+			- Měl by být kladen důraz na dostupnost API, která sbírají data od doktorů a ukládají je do nemocničních IS (99%).
+			- Dostupnost dokumentace z nemocničního IS už nemusí být tak ostře hlídána (90%).  
+		- **Performance**
+			- Distribuovaný systém vyžaduje už nějakou režii na synchronizaci uzlů, je potřeba minimalizovat velikost a potčet zpráv pro synchronizaci (**Index**), aby systém zvládl v rozumném čase přenášet i dokumentaci na uzel, který si ji vyžádá. *V rozumném čase* znaméná řádově desítky sekund. Horní hranice je minuta až dvě.
+		- **Reliability**
+			- Kladen větší důraz a dostupnost WEB API než na systém přednosu dokumentace. 
+		- **Interoperability**
+			- Kladen důraz na jednoduchou změnu implementaci komunikace s centrálním WEB API u doktorských IS. Jednoduché zabezpečené API (https), jednoduché zprávy běžném jazyce (XML).
+			- Možnost parsovat interní formáty dokotrských IS na straně cenrálních IS.
+		- **Security**
+			- Systém bude manipulovat s citlivými daty a uchovávat je. Je potřeba
+		- Scalability
+			- Už při návrhu je nutné počítat s velkým množstvím přenášených a uchovávaných dat. Velikost přenášených zpráv kolísat nebude, ale velikost ukládaných dat stále poroste.
+			- Tedy spíše *horizontální škálování* (úložné kapacity) než *vertikální škálování* (přenosové kapacity)
+		- Manageability
+			- Systém se pripiálně jen úložiště citlivých dat, moc lidí by jej spravovat nemělo.
+	- *System Qualities*
+		- Supportability
+			- Moc ne
+		- Testability
+			- Moc ne 
+	- *User Qualities*
+		- Usability 
+			- Uživatelé přijdou do styku se systémem pouze prostřednictvím svých IS, které nejsou součástí toho systému. 
+ 
