@@ -77,37 +77,33 @@ Zdravotnické informační systémy: Medicus, ...
 ![](https://raw.github.com/onashackem/PDE/master/doc/ComponentModel.png?login=onashackem&token=bf9fed6fcded562c4f64a474d4f98640)
 
 - [Kvalitativní atributy](http://msdn.microsoft.com/en-us/library/ee658094.aspx)
-	- *Design Qualities*
+	- ***Design Qualities***
 		- **Conceptual Integrity**
-			- Takto robustní systém je potřeba dobře rozmyslet a navrhnout, usnanovit jednotný coding style, navrhnout základní postupy při vývoji, strategii a organizaci týmu, ... 
+			- Takto robustní systém je potřeba dobře rozmyslet a navrhnout, ustanovit jednotný coding style, navrhnout základní postupy při vývoji, strategii a organizaci týmu, ... 
 		- Maintainability
 			- Nebude snadné jednoduše provést aktualizaci distribuovaného systému, takže by se na možná rozšíření mělo myslet už při návrhu (například počítat s podporou obrázků v dokumentaci pacienta).  
 		- Reusability
 			- Systém bude nabízet API pro komunikaci s ostatnímy systémy
-	- *RunTime Qualities*
+	- ***RunTime Qualities***
 		- **Availability**
 			- Měl by být kladen důraz na dostupnost API, která sbírají data od doktorů a ukládají je do nemocničních IS (99%).
 			- Dostupnost dokumentace z nemocničního IS už nemusí být tak ostře hlídána (95%).  
 		- **Performance**
-			- Distribuovaný systém vyžaduje už nějakou režii na synchronizaci uzlů, je potřeba minimalizovat velikost a počet zpráv pro synchronizaci (**Index**), aby systém zvládl v rozumném čase přenášet i dokumentaci na uzel, který si ji vyžádá. *V rozumném čase* znaméná řádově desítky sekund. Horní hranice je minuta až dvě.
+			- Distribuovaný systém vyžaduje režii na synchronizaci uzlů, proto je potřeba minimalizovat velikost a počet zpráv určených na synchronizaci **Indexu**. Na rychlost přenesení nových informací pomocí synchronizace není kladen zásadní důraz. Za rozumnou horní hranici potřebného času je považováno 30 minut.
+			- Od systému je požadováno, aby byl schopen v rozumném čase přenášet dokumentaci na uzel, který si ji vyžádá. *V rozumném čase* znaméná řádově desítky sekund, horní hranice je jedna minuta.
 		- **Reliability**
 			- Kladen větší důraz a dostupnost WEB API než na systém přednosu dokumentace. 
 		- **Interoperability**
 			- Kladen důraz na jednoduchou změnu implementaci komunikace s centrálním WEB API u doktorských IS. Jednoduché zabezpečené API (https), jednoduché zprávy ve standardizovaném formátu (XML).
 			- Možnost parsovat interní formáty dokotrských IS na straně cenrálních IS.
 		- **Security**
-			- Systém bude manipulovat s citlivými daty a uchovávat je. Je potřeba
+			- Systém bude manipulovat s citlivými daty a uchovávat je.
 		- Scalability
 			- Už při návrhu je nutné počítat s velkým množstvím přenášených a uchovávaných dat. Velikost přenášených zpráv kolísat nebude, ale velikost ukládaných dat stále poroste.
 			- Tedy spíše *horizontální škálování* (úložné kapacity) než *vertikální škálování* (přenosové kapacity)
 		- Manageability
-			- Systém se pripiálně jen úložiště citlivých dat, moc lidí by jej spravovat nemělo.
-	- *System Qualities*
-		- Supportability
-			- Moc ne
-		- Testability
-			- Moc ne 
-	- *User Qualities*
+			- Systém se principiálně jen úložiště citlivých dat, moc lidí by jej spravovat nemělo.
+	- ***User Qualities***
 		- Usability 
 			- Uživatelé přijdou do styku se systémem pouze prostřednictvím svých IS, které nejsou součástí toho systému. 
  
