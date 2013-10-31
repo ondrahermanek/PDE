@@ -87,7 +87,7 @@ Zdravotnické informační systémy: Medicus, ...
 	- ***RunTime Qualities***
 		- **Availability**
 			- Měl by být kladen důraz na dostupnost API, která sbírají data od doktorů a ukládají je do nemocničních IS (99%).
-			- Dostupnost dokumentace z nemocničního IS už nemusí být tak ostře hlídána (95%).  
+			- Dostupnost dokumentace z nemocničního IS už nemusí být tak ostře hlídána (95%). **TODO: upřesnit,jak jsme došli k těm číslům**
 		- **Performance**
 			- Distribuovaný systém vyžaduje režii na synchronizaci uzlů, proto je potřeba minimalizovat velikost a počet zpráv určených na synchronizaci **Indexu**. Na rychlost přenesení nových informací pomocí synchronizace není kladen zásadní důraz. Za rozumnou horní hranici potřebného času je považováno 30 minut.
 			- Od systému je požadováno, aby byl schopen v rozumném čase přenášet dokumentaci na uzel, který si ji vyžádá. *V rozumném čase* znaméná řádově desítky sekund, horní hranice je jedna minuta.
@@ -97,7 +97,7 @@ Zdravotnické informační systémy: Medicus, ...
 			- Kladen důraz na jednoduchou změnu implementaci komunikace s centrálním WEB API u doktorských IS. Jednoduché zabezpečené API (https), jednoduché zprávy ve standardizovaném formátu (XML).
 			- Možnost parsovat interní formáty dokotrských IS na straně cenrálních IS.
 		- **Security**
-			- Systém bude manipulovat s citlivými daty a uchovávat je.
+			- Systém bude manipulovat s citlivými daty a uchovávat je. Vymyslet způsob, jak se bránit DOS útokům, falešným zprávám, falešným doktorům, logovat přístupy pro ochranu osobních údajů.
 		- Scalability
 			- Už při návrhu je nutné počítat s velkým množstvím přenášených a uchovávaných dat. Velikost přenášených zpráv kolísat nebude, ale velikost ukládaných dat stále poroste.
 			- Tedy spíše *horizontální škálování* (úložné kapacity) než *vertikální škálování* (přenosové kapacity)
@@ -106,4 +106,14 @@ Zdravotnické informační systémy: Medicus, ...
 	- ***User Qualities***
 		- Usability 
 			- Uživatelé přijdou do styku se systémem pouze prostřednictvím svých IS, které nejsou součástí toho systému. 
+
+## DÚ 2 ##
+- Dodělat obrázek (přidat chybějící komponenty)
+- Data flow charts
+- State charts pro popis scénářů
+	- vložení dokumentace
+	- update dokumentace
+	- vyžádání dokumentace (Index)
+	- vyžádání dokumentace (dokument)
+- Rozpracovat Security, Availability, Performance
  
