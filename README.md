@@ -23,7 +23,7 @@ Všichni dokotři a zdravotnická zařízení mají telefon a přístup k počí
 ## Centralizované / distribuované řešení ##
 Systém může uchovávat dokumentaci na jednom místě, to má ale mnoho nevýhod - dostupnost, komunikační náročnost, ochrana osobních údajů, veliké množství dat. Tato centra se dají duplikovat - ochrana proti výpadku, ale tím dostáváme distribuovaný systém, kterému roste náročnost na synchronizaci mezi jednotlivými uzly.
 
-Proto navrhujeme udělt kompromisní řešení - centralizovat dokumentaci v daných uzlech a distribuovaně šířit pouze **Index** - seznam pacientů a jejich navštěv u doktorů a kódu vyšetření. 
+Proto navrhujeme kompromisní řešení - centralizovat dokumentaci v daných uzlech a distribuovaně šířit pouze **Index** - seznam pacientů a jejich navštěv u doktorů a kódu vyšetření. Tento index bude určovat, na kterém centrálním uzlu leží jaká konkrétní dokumentace.
 
 ## Index ##
 Pro **Index** očekáváme řádově desítky milionů záznamů, proto bude kladen důraz na minimální velikost jednoho záznamu. Ideálně tedy: 
@@ -31,6 +31,8 @@ Pro **Index** očekáváme řádově desítky milionů záznamů, proto bude kla
 <pre>ID pacienta | ID vyšetřujícího doktora | Datum vyšetření | ID zákroku | ID zařízení, kde je dokumentace uložena</pre>
 
 Jako ID pacienta by šlo použít rodné číslo, pokud by se dalo předpokládat, že je unikátní. Protože to ale neplatí, použijeme rodné číslo kombinované s celým jménem pacienta.
+
+ID doktora bude bráno jako kombinace názvu jeho informačního systému, který používá, a přihlašovacího jména, kterým se přihlašuje. Tyto informačná systémy si unikátnost přihlašovacích údajů řeší samy, tedy unikátnost takto vytvořených ID je zaručena. Případné kolize se dají řešit při registraci doktora do PDE systému.
 
 Index lze šířit dvěma způsoby:
 
@@ -59,6 +61,9 @@ Asi by mělo záležet na domluvě doktora a pacienta, co se může sdílet a co
 
 ### Jak dočasně zpřístupnit dokumentaci? ###
 Případ "Pacient si přinese kartu od jednoho doktora k druhému pro vyšetření" se dá nahradit jako vyměnění elektronického povolení mezi doktory pro zobrazení dokumentace pacienta.
+
+## Registrace doktorů ##
+Každý doktor se zaregistruje do systému PDE, dostane pevné ID, pod kterým bude identifikován v rámci systému, rovněž mu bude přiřazen centrální uzel, se kterým bude jeho informační systém komunikovat.
 
 # Případy použití #
 
@@ -109,10 +114,15 @@ Zdravotnické informační systémy: Medicus, ...
 
 ## DÚ 2 (do 29.11.2013)##
 - Dodělat obrázek (přidat chybějící komponenty)
+![](https://raw.github.com/onashackem/PDE/master/doc/ComponentModel.png?login=onashackem&token=bf9fed6fcded562c4f64a474d4f98640)
+(TODO: okomentovat trochu)
+
 - Data flow charts
+-![](https://raw.github.com/onashackem/PDE/master/doc/DF_ObtainDocumentation.png?token=773595__eyJzY29wZSI6IlJhd0Jsb2I6b25hc2hhY2tlbS9QREUvbWFzdGVyL2RvYy9ERl9PYnRhaW5Eb2N1bWVudGF0aW9uLnBuZyIsImV4cGlyZXMiOjEzODU2NTg5Mzl9--61797ac040e29a9776980d36a88ffcdf06e5061d)
+
+![](https://raw.github.com/onashackem/PDE/master/doc/DF_UploadDocumentation.png?token=773595__eyJzY29wZSI6IlJhd0Jsb2I6b25hc2hhY2tlbS9QREUvbWFzdGVyL2RvYy9ERl9VcGxvYWREb2N1bWVudGF0aW9uLnBuZyIsImV4cGlyZXMiOjEzODU2NTg5NjB9--7963982d4ec30a7daaa07e95c1d250c09c2e713f) 
 - State charts pro popis scénářů
-	- vložení dokumentace
-	- update dokumentace
+	- vložení/úprava dokumentace
 	- vyžádání dokumentace (Index)
 	- vyžádání dokumentace (dokument)
 - Rozpracovat Security, Availability, Performance
