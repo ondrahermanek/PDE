@@ -121,9 +121,19 @@ Zdravotnické informační systémy: Medicus, ...
 -![](https://raw.github.com/onashackem/PDE/master/doc/DF_ObtainDocumentation.png?token=773595__eyJzY29wZSI6IlJhd0Jsb2I6b25hc2hhY2tlbS9QREUvbWFzdGVyL2RvYy9ERl9PYnRhaW5Eb2N1bWVudGF0aW9uLnBuZyIsImV4cGlyZXMiOjEzODU2NTg5Mzl9--61797ac040e29a9776980d36a88ffcdf06e5061d)
 
 ![](https://raw.github.com/onashackem/PDE/master/doc/DF_UploadDocumentation.png?token=773595__eyJzY29wZSI6IlJhd0Jsb2I6b25hc2hhY2tlbS9QREUvbWFzdGVyL2RvYy9ERl9VcGxvYWREb2N1bWVudGF0aW9uLnBuZyIsImV4cGlyZXMiOjEzODU2NTg5NjB9--7963982d4ec30a7daaa07e95c1d250c09c2e713f) 
+
 - State charts pro popis scénářů
-	- vložení/úprava dokumentace
-	- vyžádání dokumentace (Index)
-	- vyžádání dokumentace (dokument)
-- Rozpracovat Security, Availability, Performance
+	- Vložení/úprava dokumentace
+![](https://raw.github.com/onashackem/PDE/master/doc/SQ_UploadDocumentation.png?token=773595__eyJzY29wZSI6IlJhd0Jsb2I6b25hc2hhY2tlbS9QREUvbWFzdGVyL2RvYy9TUV9VcGxvYWREb2N1bWVudGF0aW9uLnBuZyIsImV4cGlyZXMiOjEzODU2NTkzMTh9--37a152ec9b6a0ed431d16eebc6633bce449e6841)
+
+	- Vyžádání dokumentace (Index + dokument)
+![](https://raw.github.com/onashackem/PDE/master/doc/SQ_ObtainDocumentation.png?token=773595__eyJzY29wZSI6IlJhd0Jsb2I6b25hc2hhY2tlbS9QREUvbWFzdGVyL2RvYy9TUV9PYnRhaW5Eb2N1bWVudGF0aW9uLnBuZyIsImV4cGlyZXMiOjEzODU2NTkyMzN9--e14bf3a72b63de0eb4a4fd24d11532e2d4a48b6d)
+
+	- Synchronizace Indexu
+![](https://raw.github.com/onashackem/PDE/master/doc/SQ_DistributeIndex.png?token=773595__eyJzY29wZSI6IlJhd0Jsb2I6b25hc2hhY2tlbS9QREUvbWFzdGVyL2RvYy9TUV9EaXN0cmlidXRlSW5kZXgucG5nIiwiZXhwaXJlcyI6MTM4NTY1OTMwM30%3D--341a6735677a372128d8f7f22dbc1d389e2e80a8)¨
+
+- Rozpracovat:
+	- Security
+	- Availability
+	- Performance
  
