@@ -107,7 +107,7 @@ Zdravotnické informační systémy: Medicus, ...
 		- Usability 
 			- Uživatelé přijdou do styku se systémem pouze prostřednictvím svých IS, které nejsou součástí toho systému. 
 
-## DÚ 2 ##
+## DÚ 2 (do 29.11.2013)##
 - Dodělat obrázek (přidat chybějící komponenty)
 - Data flow charts
 - State charts pro popis scénářů
