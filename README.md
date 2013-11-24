@@ -11,7 +11,7 @@ Doktor při každé návštěvě (nového) pacienta zjišťuje jeho anamnézu - 
 
 Současný stav výměny dokumentace mezi doktory je následující: když doktor posílá pacienta za jiným doktorem na nějaké vyšetření, vytiskne mu jeho kartu, kterou musí pacient donést tomu jinému doktorovi. Tak karta ale obsahuje jen informace od prvního doktora. Po vyšetření by pacient kartu měl správně odevzdat svému obvodnímu doktorovi, ale často se tak neděje a pacienti si kartu nechávají, ztrácí nebo vyhazují.
 
-O řešení tohoto problému se již v minulosti snažil projekt **IZIP**, který neuspěl především z důvodu, že systém byl centralizovaný v rukou pojišťoven, které kontrolovali, jestli doktoři dělají, co vykazují, že dělají.
+O řešení tohoto problému se již v minulosti snažil projekt **IZIP**, který neuspěl především z důvodu, že systém byl centralizovaný v rukou pojišťoven, které kontrolovali, jestli doktoři dělají, co vykazují, že dělají (což ne vždy kvůli přísným limitům donktoři obcházeli v dobré víře lépe pomoci více lidem).
 
 # Motivace #
 Cílem tohoto projektu je navrhnout systém, který umožní doktorům získat celkovou dokumentaci pacienta a obohacovat ji. Systém bude o každém pacientovi obsahovat seznam všech návštěv u doktorů, popis vyšetření a nějakou výstupní zprávu. Tato dokumentace bude přístupná na vyžádání - doktor při vyšetření, běhěm výjezdu sanitního vozu.
@@ -113,24 +113,51 @@ Zdravotnické informační systémy: Medicus, ...
 			- Uživatelé přijdou do styku se systémem pouze prostřednictvím svých IS, které nejsou součástí toho systému. 
 
 ## DÚ 2 (do 29.11.2013)##
-- Dodělat obrázek (přidat chybějící komponenty)
 ![](https://raw.github.com/onashackem/PDE/master/doc/ComponentModel.png?login=onashackem&token=bf9fed6fcded562c4f64a474d4f98640)
-(TODO: okomentovat trochu)
 
-- Data flow charts
--![](https://raw.github.com/onashackem/PDE/master/doc/DF_ObtainDocumentation.png?token=773595__eyJzY29wZSI6IlJhd0Jsb2I6b25hc2hhY2tlbS9QREUvbWFzdGVyL2RvYy9ERl9PYnRhaW5Eb2N1bWVudGF0aW9uLnBuZyIsImV4cGlyZXMiOjEzODU2NTg5Mzl9--61797ac040e29a9776980d36a88ffcdf06e5061d)
+Tento diagram komponent zachycuje pohled na architekturu jednoho centralizovaného úložiště a jeho komunikace s různýmy zdravotnickýmy informačnímy systémy. 
 
-![](https://raw.github.com/onashackem/PDE/master/doc/DF_UploadDocumentation.png?token=773595__eyJzY29wZSI6IlJhd0Jsb2I6b25hc2hhY2tlbS9QREUvbWFzdGVyL2RvYy9ERl9VcGxvYWREb2N1bWVudGF0aW9uLnBuZyIsImV4cGlyZXMiOjEzODU2NTg5NjB9--7963982d4ec30a7daaa07e95c1d250c09c2e713f) 
+Každý zdravotní informační systém komunikuje s centralizovaným uzlem přes zabezpečené Web API. Každý požavek na centralizovaný uzel je před zpracováním verifikován - proběhne autorizace a autentizace zdravotnického systému, který požadavek vytovořil, zároveň proběhne kontrola proti zahlcení požadavky. Zdravotnický systém může vyžádat **Index** se záznamy pacienta, ktérého zrovna léčí, nebo přímo zvolenou dokumentaci.,
 
-- State charts pro popis scénářů
-	- Vložení/úprava dokumentace
+Centralizovaný uzel po verifikaci požadavku 
+- na **Index**: vrátí **Index** se záznamy pacienta, který má u sebe uložen v lokální databázi
+- na konkrétní záznam: se podle **Indexu** rozhodne, kde záznam vyzvednout
+	- buď je uložen v lokální databázi uzlu
+	- nebo je uložen v lokální cache uzlu (je potřeba ověřit, že není zastaralý)
+	- nebo ví, na jakém vzdáleném uzlu je uložena, tak si o záznam řekne
+		- požadavek na vzdáleném uzlu je verifikován stejným mechanizmem jako požadavek zdravotnického systému. 
+		- poté, co obdrží záznam si jej uloží do své cache	
+
+Centralizované uzly zároveň v daném intervalu synchronizují **Index** mezi ostatnímy uzly. Každý tento požadavek s novýmy/aktualizovanými záznamy je verifikován na uzlu, na který požadavek dorazí, stejným verifikačním procesem, jako ostatní (dříve zmíněné) požadavky. 
+
+### Nahrání dokumentace ###
+![](https://raw.github.com/onashackem/PDE/master/doc/DF_UploadDocumentation.png?token=773595__eyJzY29wZSI6IlJhd0Jsb2I6b25hc2hhY2tlbS9QREUvbWFzdGVyL2RvYy9ERl9VcGxvYWREb2N1bWVudGF0aW9uLnBuZyIsImV4cGlyZXMiOjEzODU2NTg5NjB9--7963982d4ec30a7daaa07e95c1d250c09c2e713f)
+
+Tento diagram znázorňuje tok dat při nahrání dokumentace
+- Doktor vytvoří/upravé ve svém IS, ten se pošle přes Web API určeného centralizovaného uzlu, kde se verifikuje.
+- Pokud verifikace proběhne úspěšně, záznam se uloží a aktualizuje se **Index**.
+ 
 ![](https://raw.github.com/onashackem/PDE/master/doc/SQ_UploadDocumentation.png?token=773595__eyJzY29wZSI6IlJhd0Jsb2I6b25hc2hhY2tlbS9QREUvbWFzdGVyL2RvYy9TUV9VcGxvYWREb2N1bWVudGF0aW9uLnBuZyIsImV4cGlyZXMiOjEzODU2NTkzMTh9--37a152ec9b6a0ed431d16eebc6633bce449e6841)
 
-	- Vyžádání dokumentace (Index + dokument)
+Tento diagram detailněji popisuje průběh vytvoření/aktualizace dokumentace pacienta.
+
+### Vyžádání dokumentace ###
+![](https://raw.github.com/onashackem/PDE/master/doc/DF_ObtainDocumentation.png?token=773595__eyJzY29wZSI6IlJhd0Jsb2I6b25hc2hhY2tlbS9QREUvbWFzdGVyL2RvYy9ERl9PYnRhaW5Eb2N1bWVudGF0aW9uLnBuZyIsImV4cGlyZXMiOjEzODU2NTg5Mzl9--61797ac040e29a9776980d36a88ffcdf06e5061d)
+
+Tento diagram ukazuje, jak probíhá získání dané dokumentace
+- Doktor si nejprve vyžádá **Index** dokumentace o pacientovi
+- Potí vybere konkrétní dokument, který ho zajímá, a centralizovaný uzel mu jej vyhledá a najde. Každý požadavek je verifikován.
+
 ![](https://raw.github.com/onashackem/PDE/master/doc/SQ_ObtainDocumentation.png?token=773595__eyJzY29wZSI6IlJhd0Jsb2I6b25hc2hhY2tlbS9QREUvbWFzdGVyL2RvYy9TUV9PYnRhaW5Eb2N1bWVudGF0aW9uLnBuZyIsImV4cGlyZXMiOjEzODU2NTkyMzN9--e14bf3a72b63de0eb4a4fd24d11532e2d4a48b6d)
 
-	- Synchronizace Indexu
-![](https://raw.github.com/onashackem/PDE/master/doc/SQ_DistributeIndex.png?token=773595__eyJzY29wZSI6IlJhd0Jsb2I6b25hc2hhY2tlbS9QREUvbWFzdGVyL2RvYy9TUV9EaXN0cmlidXRlSW5kZXgucG5nIiwiZXhwaXJlcyI6MTM4NTY1OTMwM30%3D--341a6735677a372128d8f7f22dbc1d389e2e80a8)¨
+Tento diagram detailněji popisuje průběh vyžádání dokumentace pacienta. 
+
+### Distribuce Indexu ###
+![](https://raw.github.com/onashackem/PDE/master/doc/SQ_DistributeIndex.png?token=773595__eyJzY29wZSI6IlJhd0Jsb2I6b25hc2hhY2tlbS9QREUvbWFzdGVyL2RvYy9TUV9EaXN0cmlidXRlSW5kZXgucG5nIiwiZXhwaXJlcyI6MTM4NTY1OTMwM30%3D--341a6735677a372128d8f7f22dbc1d389e2e80a8)
+
+Tento diagram popisuje průběh synchronizace **Index**u mezi všemy uzly.
+- Každý uzel zjistí ze své lokální databáze, které záznamy přibyly/byly změněny od poslední synchronizace a tyto záznamy (jako **Inex**) rozešle na všechny ostatní uzly
+- Zároveň si kontroluje potvrzení, kterými mu ostatní uzly dávají vědět, že zpracovaly nový obsah **Indexu**. V případě nedodržení potvrzení se **Index** na daný uzel pošle opakovaně, dokud se operace nepodaří. 
 
 - Rozpracovat:
 	- Security
