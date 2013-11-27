@@ -163,12 +163,12 @@ Tento diagram popisuje průběh synchronizace **Index**u mezi všemy uzly.
 
 Nejdůležitější výkonostní požadavky na systém jsou:
 
-- Přenesení dokumentace na uzel, který si ji vužádal, by mělo trvat desítky sekund, maximálně jednu minutu.
+- Přenesení dokumentace na uzel, který si ji vyžádal, by mělo trvat desítky sekund, maximálně jednu minutu.
 - Synchronizace indexů by měla mít zpoždění do 30 minut.
 
-Zdůvodnění: Předpokládá se, že lékaři budou ochotní na přenesení dokumentace počkat, ale ne příliš dlouho. U synchronizace indexů není kaladen důraz na rychlost, protože se že by pacient rychle přesouval mezi lékaři náležejícími pod různé nemocnice.
+Zdůvodnění: Předpokládá se, že lékaři budou ochotní na přenesení dokumentace počkat, ale ne příliš dlouho. U synchronizace indexů není kladen důraz na rychlost, protože se nepředpokládá, že by se pacient rychle přesouval mezi lékaři náležejícími pod různé nemocnice.
 
-Největším potenciálním problémem s přenášením dokumentace by mohlo být přenášení dokumentů mezi nemocnicemi a synchronizace indexu. Následuje velmi hrubý odhad nároků těchto procesů na připojení nemocnic:
+Největšími potenciálními problémy s výkonen systému by mohly být nároky přenášení dokumentů mezi nemocnicemi a synchronizace indexu na připojení nemocnic. Následuje velmi hrubý odhad těchto nároků:
 
 Předpoklady výpočtu (mnohé velmi nereálné, ale pro rámcový výpočet by měly postačovat):
 
@@ -184,7 +184,7 @@ Z těchto předpokldů vychází, že v ČR probíhá 70 000 ošetření za hodi
 
 Vzhledem k velmi malé velikosti položek indexu bude potřeba k synchronizaci jedné nemocnice se všemi ostaními nemocnicemi cca 16 kb/s, což taktéž není problém.
 
-Průběh zpracování požadavku na přenesení dokumentu, který není umístěný v lokální nemocnici probáhá následovně:
+Průběh zpracování požadavku na přenesení dokumentu, který není umístěný v lokální nemocnici, probáhá následovně:
 
 1. přenos požadavku do lokální nemocnice
 2. zpracování požadavku v lokální nemocnici
