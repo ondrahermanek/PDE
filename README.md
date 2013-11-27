@@ -156,11 +156,47 @@ Tento diagram detailněji popisuje průběh vyžádání dokumentace pacienta.
 ![](https://raw.github.com/onashackem/PDE/master/doc/SQ_DistributeIndex.png?token=773595__eyJzY29wZSI6IlJhd0Jsb2I6b25hc2hhY2tlbS9QREUvbWFzdGVyL2RvYy9TUV9EaXN0cmlidXRlSW5kZXgucG5nIiwiZXhwaXJlcyI6MTM4NTY1OTMwM30%3D--341a6735677a372128d8f7f22dbc1d389e2e80a8)
 
 Tento diagram popisuje průběh synchronizace **Index**u mezi všemy uzly.
-- Každý uzel zjistí ze své lokální databáze, které záznamy přibyly/byly změněny od poslední synchronizace a tyto záznamy (jako **Inex**) rozešle na všechny ostatní uzly
+- Každý uzel zjistí ze své lokální databáze, které záznamy přibyly/byly změněny od poslední synchronizace a tyto záznamy (jako **Index**) rozešle na všechny ostatní uzly
 - Zároveň si kontroluje potvrzení, kterými mu ostatní uzly dávají vědět, že zpracovaly nový obsah **Indexu**. V případě nedodržení potvrzení se **Index** na daný uzel pošle opakovaně, dokud se operace nepodaří. 
+
+### Performance ###
+
+Nejdůležitější výkonostní požadavky na systém jsou:
+
+- Přenesení dokumentace na uzel, který si ji vužádal, by mělo trvat desítky sekund, maximálně jednu minutu.
+- Synchronizace indexů by měla mít zpoždění do 30 minut.
+
+Zdůvodnění: Předpokládá se, že lékaři budou ochotní na přenesení dokumentace počkat, ale ne příliš dlouho. U synchronizace indexů není kaladen důraz na rychlost, protože se že by pacient rychle přesouval mezi lékaři náležejícími pod různé nemocnice.
+
+Největším potenciálním problémem s přenášením dokumentace by mohlo být přenášení dokumentů mezi nemocnicemi a synchronizace indexu. Následuje velmi hrubý odhad nároků těchto procesů na připojení nemocnic:
+
+Předpoklady výpočtu (mnohé velmi nereálné, ale pro rámcový výpočet by měly postačovat):
+
+- za rok proběhne v ČR 140 milionů ambulantních ošetření ([Zdravotnická ročenka ČR 2012](http://www.uzis.cz/publikace/zdravotnicka-rocenka-ceske-republiky-2012): 135 786 630)
+- každé ošetření bude vyžadovat přenesení jednoho dokumentu mezi nemocnicemi
+- všechna ošetření probíhají během 8 pracovních hodin 250 pracovních dnů roku (simulace špičky)
+- v ČR se nachází 200 nemocnic ([Nemocnice v České republice v roce 2012](http://www.uzis.cz/rychle-informace/nemocnice-ceske-republice-roce-2012): 188)
+- všechny nemocnine jsou rovnoměrně zatížené
+- přenášené dokumenty mají velikost 1 MB
+- záznam v indexu má 100 B
+
+Z těchto předpokldů vychází, že v ČR probíhá 70 000 ošetření za hodinu = cca 20 ošetření za sekundu = cca 0,1 ošetření za sekundu v obvodu každé nemocnice. To znamená, že každá nemocnice bude potřebovat kapacitu 800 kb/s jak na upload, tak na download, což v dnešních podmínkách není sebemenší problém.
+
+Vzhledem k velmi malé velikosti položek indexu bude potřeba k synchronizaci jedné nemocnice se všemi ostaními nemocnicemi cca 16 kb/s, což taktéž není problém.
+
+Průběh zpracování požadavku na přenesení dokumentu, který není umístěný v lokální nemocnici probáhá následovně:
+
+1. přenos požadavku do lokální nemocnice
+2. zpracování požadavku v lokální nemocnici
+3. přenos požadavku do vzdálené nemocnince
+4. zpracování požadavku ve vzdálené nemocnici
+5. přenos dokumentu ze vzdálené nemocnince
+6. zpracování dokumentu v lokální nemocnici
+7. přenos dokumentu z lokální nemocnince
+
+Pokud předpokládáme, že na přenos tohoto dokumentu je k dispozici 1 Mb/s ve všech zúčastněných síťových uzlech, tak kroky 5 a 7 každý budou trvat 8 s. Všechny ostatní kroky by měly proběhnout rychle, předpokládejme do 1 s. Dohromady na celý proces dostáváme 21 s, což je v rámci požadavků.
 
 - Rozpracovat:
 	- Security
 	- Availability
-	- Performance
  
