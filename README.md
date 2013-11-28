@@ -126,7 +126,7 @@ Centralizovaný uzel po verifikaci požadavku
 	- nebo je uložen v lokální cache uzlu (je potřeba ověřit, že není zastaralý)
 	- nebo ví, na jakém vzdáleném uzlu je uložena, tak si o záznam řekne
 		- požadavek na vzdáleném uzlu je verifikován stejným mechanizmem jako požadavek zdravotnického systému. 
-		- poté, co obdrží záznam si jej uloží do své cache	
+		- poté, co obdrží záznam, si jej uloží do své cache	
 
 Centralizované uzly zároveň v daném intervalu synchronizují **Index** mezi ostatnímy uzly. Každý tento požadavek s novýmy/aktualizovanými záznamy je verifikován na uzlu, na který požadavek dorazí, stejným verifikačním procesem, jako ostatní (dříve zmíněné) požadavky. 
 
@@ -146,7 +146,7 @@ Tento diagram detailněji popisuje průběh vytvoření/aktualizace dokumentace 
 
 Tento diagram ukazuje, jak probíhá získání dané dokumentace
 - Doktor si nejprve vyžádá **Index** dokumentace o pacientovi
-- Potí vybere konkrétní dokument, který ho zajímá, a centralizovaný uzel mu jej vyhledá a najde. Každý požadavek je verifikován.
+- Poté vybere konkrétní dokument, který ho zajímá, a centralizovaný uzel mu jej vyhledá a najde. Každý požadavek je verifikován.
 
 ![](https://raw.github.com/onashackem/PDE/master/doc/SQ_ObtainDocumentation.png?token=773595__eyJzY29wZSI6IlJhd0Jsb2I6b25hc2hhY2tlbS9QREUvbWFzdGVyL2RvYy9TUV9PYnRhaW5Eb2N1bWVudGF0aW9uLnBuZyIsImV4cGlyZXMiOjEzODU2NTkyMzN9--e14bf3a72b63de0eb4a4fd24d11532e2d4a48b6d)
 
@@ -157,7 +157,7 @@ Tento diagram detailněji popisuje průběh vyžádání dokumentace pacienta.
 
 Tento diagram popisuje průběh synchronizace **Index**u mezi všemy uzly.
 - Každý uzel zjistí ze své lokální databáze, které záznamy přibyly/byly změněny od poslední synchronizace a tyto záznamy (jako **Index**) rozešle na všechny ostatní uzly
-- Zároveň si kontroluje potvrzení, kterými mu ostatní uzly dávají vědět, že zpracovaly nový obsah **Indexu**. V případě nedodržení potvrzení se **Index** na daný uzel pošle opakovaně, dokud se operace nepodaří. 
+- Zároveň si kontroluje potvrzení, kterými mu ostatní uzly dávají vědět, že zpracovaly nový obsah **Indexu**. V případě nedodržení potvrzení je **Index** na daný uzel posílán opakovaně, dokud se operace nepodaří. 
 
 ### Performance ###
 
