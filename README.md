@@ -211,8 +211,9 @@ Snaha bude minimalizovat dobu neplánovaných výpadku i jejich četnost. Kladen
 	- 30 minut měsíčně
 
 #### Výpočet dostupnosti ####
-MTBF = předpokládáme polovinu měsíce = 360 hodin
-MTTR = předpokládáme 3/4 hodiny (1 hodina plánovaný výpadek(údržba), 0,5 hodiny neplánovaný výpadek; průměr = 0.75 hodiny) = 0.75 hodiny
+**MTBF** = předpokládáme polovinu měsíce = 360 hodin
+
+**MTTR** = předpokládáme 3/4 hodiny (1 hodina plánovaný výpadek(údržba), 0,5 hodiny neplánovaný výpadek; průměr = 0.75 hodiny) = 0.75 hodiny
 
 ```Availability = MTBF / (MTBF + MTTR) = 360 / (360 + 0,75) = 0.9979```
 
