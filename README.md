@@ -200,3 +200,23 @@ Pokud předpokládáme, že na přenos tohoto dokumentu je k dispozici 1 Mb/s ve
 	- Security
 	- Availability
  
+### Availability ###
+
+Snaha bude minimalizovat dobu neplánovaných výpadku i jejich četnost. Kladen důraz na dostupnost Web API, protože je důležitější aby se dokumentace dostala od doktora do centrálního úložistě, než aby se vyžádaná dokumentace dostala k doktorovi.
+
+#### Výpadky ####
+- plánované výpadky
+	- hodina měsíčně na údržbu (kolem 1:00 ráno)
+- neplnánované výpadky
+	- 30 minut měsíčně
+
+#### Výpočet dostupnosti ####
+MTBF = předpokládáme polovinu měsíce = 360 hodin
+MTTR = předpokládáme 3/4 hodiny (1 hodina plánovaný výpadek(údržba), 0,5 hodiny neplánovaný výpadek; průměr = 0.75 hodiny) = 0.75 hodiny
+
+```Availability = MTBF / (MTBF + MTTR) = 360 / (360 + 0,75) = 0.9979```
+
+Tedy celková dostupnost systému bude činit zhruba 99,8% procent. Tímto se náš systém bude řadit do třídy spolehlivosti 2 - Managed ([slidy RNDr. Jakub Lokoč, Ph.D.](https://docs.google.com/viewer?url=http://siret.ms.mff.cuni.cz/lokoc/UK/Transakce.pdf)).
+
+
+
