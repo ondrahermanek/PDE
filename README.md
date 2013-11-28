@@ -198,7 +198,7 @@ Pokud předpokládáme, že na přenos tohoto dokumentu je k dispozici 1 Mb/s ve
 
 ### Security ###
 
-K zajištění bezpečnosti je potřeba určit, proti jakým druhům útoků se bedeme bránit. Předpokládané druhy útoků jsou:
+K zajištění bezpečnosti je potřeba určit, proti jakým druhům útoků se budeme bránit. Předpokládané druhy útoků jsou:
 
 - útočník bude předstírat, že je nemocnicí, při komunikaci s jinou nemocnicí nebo s lékařem
 - utočník bude předstírat, že je lékařem, při komunikaci s nemocnicí
