@@ -202,7 +202,7 @@ Pokud předpokládáme, že na přenos tohoto dokumentu je k dispozici 1 Mb/s ve
  
 ### Availability ###
 
-Snaha bude minimalizovat dobu neplánovaných výpadku i jejich četnost. Kladen důraz na dostupnost Web API, protože je důležitější aby se dokumentace dostala od doktora do centrálního úložistě, než aby se vyžádaná dokumentace dostala k doktorovi.
+Snaha bude minimalizovat dobu neplánovaných výpadku i jejich četnost. Počítá se s pravidlnými údržbami, které se budou provádět mimo špičku, ideálně po půlnoci, kdy se předpokládá minimální počet požadavků na systém.
 
 #### Výpadky ####
 - plánované výpadky
