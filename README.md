@@ -196,7 +196,7 @@ Průběh zpracování požadavku na přenesení dokumentu, který není umístě
 
 Pokud předpokládáme, že na přenos tohoto dokumentu je k dispozici 1 Mb/s ve všech zúčastněných síťových uzlech, tak kroky 5 a 7 každý budou trvat 8 s. Všechny ostatní kroky by měly proběhnout rychle, předpokládejme do 1 s. Dohromady na celý proces dostáváme 21 s, což je v rámci požadavků.
 
-## Security ##
+### Security ###
 
 K zajištění bezpečnosti je potřeba určit, proti jakým druhům útoků se bedeme bránit. Předpokládané druhy útoků jsou:
 
