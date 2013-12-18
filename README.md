@@ -79,7 +79,7 @@ Zdravotnické informační systémy: Medicus, ...
 
 # DÚ 1#
 - Modularizace - schéma základního rozdělení na moduly a jejich vazby
-![](https://raw.github.com/onashackem/PDE/master/doc/ComponentModel.png?login=onashackem&token=bf9fed6fcded562c4f64a474d4f98640)
+![Component Model](doc/ComponentModel.png)
 
 - [Kvalitativní atributy](http://msdn.microsoft.com/en-us/library/ee658094.aspx)
 	- ***Design Qualities***
@@ -113,7 +113,7 @@ Zdravotnické informační systémy: Medicus, ...
 			- Uživatelé přijdou do styku se systémem pouze prostřednictvím svých IS, které nejsou součástí toho systému. 
 
 ## DÚ 2 (do 29.11.2013)##
-![](https://raw.github.com/onashackem/PDE/master/doc/ComponentModel.png?login=onashackem&token=bf9fed6fcded562c4f64a474d4f98640)
+![Component Model](doc/ComponentModel.png)
 
 Tento diagram komponent zachycuje pohled na architekturu jednoho centralizovaného úložiště a jeho komunikace s různýmy zdravotnickýmy informačnímy systémy. 
 
@@ -131,29 +131,29 @@ Centralizovaný uzel po verifikaci požadavku
 Centralizované uzly zároveň v daném intervalu synchronizují **Index** mezi ostatnímy uzly. Každý tento požadavek s novýmy/aktualizovanými záznamy je verifikován na uzlu, na který požadavek dorazí, stejným verifikačním procesem, jako ostatní (dříve zmíněné) požadavky. 
 
 ### Nahrání dokumentace ###
-![](https://raw.github.com/onashackem/PDE/master/doc/DF_UploadDocumentation.png?token=773595__eyJzY29wZSI6IlJhd0Jsb2I6b25hc2hhY2tlbS9QREUvbWFzdGVyL2RvYy9ERl9VcGxvYWREb2N1bWVudGF0aW9uLnBuZyIsImV4cGlyZXMiOjEzODU2NTg5NjB9--7963982d4ec30a7daaa07e95c1d250c09c2e713f)
+![Uploading Documentation](doc/DF_UploadDocumentation.png)
 
 Tento diagram znázorňuje tok dat při nahrání dokumentace
 - Doktor vytvoří/upravé ve svém IS, ten se pošle přes Web API určeného centralizovaného uzlu, kde se verifikuje.
 - Pokud verifikace proběhne úspěšně, záznam se uloží a aktualizuje se **Index**.
  
-![](https://raw.github.com/onashackem/PDE/master/doc/SQ_UploadDocumentation.png?token=773595__eyJzY29wZSI6IlJhd0Jsb2I6b25hc2hhY2tlbS9QREUvbWFzdGVyL2RvYy9TUV9VcGxvYWREb2N1bWVudGF0aW9uLnBuZyIsImV4cGlyZXMiOjEzODU2NTkzMTh9--37a152ec9b6a0ed431d16eebc6633bce449e6841)
+![Uploading Documentation](doc/SQ_UploadDocumentation.png)
 
 Tento diagram detailněji popisuje průběh vytvoření/aktualizace dokumentace pacienta.
 
 ### Vyžádání dokumentace ###
-![](https://raw.github.com/onashackem/PDE/master/doc/DF_ObtainDocumentation.png?token=773595__eyJzY29wZSI6IlJhd0Jsb2I6b25hc2hhY2tlbS9QREUvbWFzdGVyL2RvYy9ERl9PYnRhaW5Eb2N1bWVudGF0aW9uLnBuZyIsImV4cGlyZXMiOjEzODU2NTg5Mzl9--61797ac040e29a9776980d36a88ffcdf06e5061d)
+![Obtaining documentation](doc/DF_ObtainDocumentation.png)
 
 Tento diagram ukazuje, jak probíhá získání dané dokumentace
 - Doktor si nejprve vyžádá **Index** dokumentace o pacientovi
 - Poté vybere konkrétní dokument, který ho zajímá, a centralizovaný uzel mu jej vyhledá a najde. Každý požadavek je verifikován.
 
-![](https://raw.github.com/onashackem/PDE/master/doc/SQ_ObtainDocumentation.png?token=773595__eyJzY29wZSI6IlJhd0Jsb2I6b25hc2hhY2tlbS9QREUvbWFzdGVyL2RvYy9TUV9PYnRhaW5Eb2N1bWVudGF0aW9uLnBuZyIsImV4cGlyZXMiOjEzODU2NTkyMzN9--e14bf3a72b63de0eb4a4fd24d11532e2d4a48b6d)
+![Obtaining documentation](doc/SQ_ObtainDocumentation.png)
 
 Tento diagram detailněji popisuje průběh vyžádání dokumentace pacienta. 
 
 ### Distribuce Indexu ###
-![](https://raw.github.com/onashackem/PDE/master/doc/SQ_DistributeIndex.png?token=773595__eyJzY29wZSI6IlJhd0Jsb2I6b25hc2hhY2tlbS9QREUvbWFzdGVyL2RvYy9TUV9EaXN0cmlidXRlSW5kZXgucG5nIiwiZXhwaXJlcyI6MTM4NTY1OTMwM30%3D--341a6735677a372128d8f7f22dbc1d389e2e80a8)
+![Distributing Index](doc/SQ_DistributeIndex.png)
 
 Tento diagram popisuje průběh synchronizace **Index**u mezi všemy uzly.
 - Každý uzel zjistí ze své lokální databáze, které záznamy přibyly/byly změněny od poslední synchronizace a tyto záznamy (jako **Index**) rozešle na všechny ostatní uzly
