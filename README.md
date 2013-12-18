@@ -41,6 +41,9 @@ Logicky nejsprávnější by bylo uchovávat dokumentaci paciantů u jejich obvo
 
 Proto budou zřízeny centralizované uzly v nemocnicích a každému zdravotníkovi bude určen (přiřazen pri registraci) jeden uzel, který bude uchovávat dokumentaci jeho paicentů.
 
+## Zdravotnická dokumentace ##
+Dokumentace se bude uchovávat centralizovaně v daných uzlech - zdravotnická zařízení nebo zdravotní pojišťovny nebo obvodní lékaři. Doktoři budou dokumentaci na tyto uzly nahrávat - doktoři v nemocnicích přímo v rámci nemocničního systému, soukromí doktoři přes nějaké webové rozhraní nebo pomocí svých informačních systémů, které budou s tímto celým systémem komunikovat. Jednotlivé uzly se budou starat o zabezpečení osobních údajů, o dostupnost dokumentace a o aktualizaci **Index**u.
+
 ## Slovník ##
 Zde je uveden význam používaných pojmů
 
@@ -49,6 +52,21 @@ Zde je uveden význam používaných pojmů
 - **Centrální uzel** - Uzel, kde se ukládá **Dokumentace**, **Index** a odkud se distribuují okolním uzlům
 	- *lokální* - uzel, kam doktor nahrává  **Dokumentaci** (myšleno v kontextu doktora)
 	- *vzdálený* - ostatní uzly, kde se nachází dokumentace, doktor na něj dokumentaci nenahrává, pouze ji může získat (myšleno v kontextu doktora)
+
+## Přístupnost dokumentace ##
+### Jak bude dokumentace přístupná? ###
+- Všichni vidí vše - porušení ochrany osobních údajů
+- Nikdo nevidí nic - nebylo by co sdílet
+- Přístupné jen něco - relevantní data mohou být zrovna nepřístupná
+- Výchozí dostupnost?
+
+Bude potřeba stanovit, co je dovoleno sdílet a co naopak dovoleno sdílet není. Zároveň by měl existovat způsob, jak bude možné přistoupit k relevantním infomacím, které mohou být nepřístupné z důvodu nevhodného nastavení.
+
+### Kdo bude určovat viditelnost informací? ###
+- Pacient určuje, co bude dostupné a co ne - jak to změní?
+- Doktor určuje, co bude dostupné a co ne - měl by mít pacientův souhlas?
+
+Asi by mělo záležet na domluvě doktora a pacienta, co se může sdílet a co ne. Doktor by se měl snažit sdílet maximum relevantních informací (on ví, co je relevantní lépe, než pacient).
 
 ## Přístupnost dokumentace ##
 Veškeré **Dokumentace** budou přístupné všem doktorům. Pro ochranu osobních údajů proti zneužití bude každá akce - vytvoření/úprava/mazání/vyžádání **Dokumentace** - zalogována. Bude tedy možné dohledat, který doktor přistoupil k jaké **Dokumentaci**.
@@ -185,7 +203,7 @@ Předpoklady výpočtu (mnohé velmi nereálné, ale pro rámcový výpočet by 
 - za rok proběhne v ČR 140 milionů ambulantních ošetření ([Zdravotnická ročenka ČR 2012](http://www.uzis.cz/publikace/zdravotnicka-rocenka-ceske-republiky-2012): 135 786 630)
 - každé ošetření bude vyžadovat přenesení jednoho dokumentu mezi nemocnicemi
 - všechna ošetření probíhají během 8 pracovních hodin 250 pracovních dnů roku (simulace špičky)
-- v ČR se nachází 200 nemocnic ([Nemocnice v České republice v roce 2012](http://www.uzis.cz/rychle-informace/nemocnice-ceske-republice-roce-2012): 188)
+- v ČR se nachází zhruba 200 nemocnic ([Nemocnice v České republice v roce 2012](http://www.uzis.cz/rychle-informace/nemocnice-ceske-republice-roce-2012): 188)
 - všechny nemocnine jsou rovnoměrně zatížené
 - přenášené dokumenty mají velikost 1 MB
 - záznam v indexu má 100 B
