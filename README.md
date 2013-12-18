@@ -39,7 +39,7 @@ Index lze šířit dvěma způsoby:
 - Synchronizovat mezi uzly automaticky, což je komunikačně náročné.
 - Poskytovat až na výžádání dotazem na centralizovaný uzel typu "Dej mi všechna vyšetření tohoto pacienta, které máš u sebe uchované". Tento dotaz bude odeslán na všechny (doktorem vybrané) uzly až když pacient přijde na vyšetření. Na odpověď tohoto dotazu bude potřeba počkat.
 
-## Dokumentace ##
+## Zdravotnická dokumentace ##
 Dokumentace se bude uchovávat centralizovaně v daných uzlech - zdravotnická zařízení nebo zdravotní pojišťovny nebo obvodní lékaři. Doktoři budou dokumentaci na tyto uzly nahrávat - doktoři v nemocnicích přímo v rámci nemocničního systému, soukromí doktoři přes nějaké webové rozhraní nebo pomocí svých informačních systémů, které budou s tímto celým systémem komunikovat. Jednotlivé uzly se budou starat o zabezpečení osobních údajů, o dostupnost dokumentace a o aktualizaci **Index**u.
 
 Logicky nejsprávnější by bylo uchovávat dokumentaci paciantů u jejich obvodních lékařů, kteří by o svých pacientech měli vědět vše (tedy mít veškerou jejich dokumentaci). To by znamenalo vybavit každého doktora serverem, který bude idálně 24/7/356 dostupný a zabezpečený proti zneužití.
@@ -51,9 +51,9 @@ Logicky nejsprávnější by bylo uchovávat dokumentaci paciantů u jejich obvo
 - Přístupné jen něco - relevantní data mohou být zrovna nepřístupná
 - Výchozí dostupnost?
 
-Bude potřeba, aby někdo řekl, co je dovoleno sdílet, co není dovoleno sdílet, zároveň by měl existovat způsob, jak se dostat k relevantním informacim, které mouhou být nepřístupné jen díky špatnému nastavení.
+Bude potřeba stanovit, co je dovoleno sdílet a co naopak dovoleno sdílet není. Zároveň by měl existovat způsob, jak bude možné přistoupit k relevantním infomacím, které mohou být nepřístupné z důvodu nevhodného nastavení.
 
-### Kdo bude určovat, kdo co má vidět a kdo ne? ###
+### Kdo bude určovat viditelnost informací? ###
 - Pacient určuje, co bude dostupné a co ne - jak to změní?
 - Doktor určuje, co bude dostupné a co ne - měl by mít pacientův souhlas?
 
@@ -175,7 +175,7 @@ Předpoklady výpočtu (mnohé velmi nereálné, ale pro rámcový výpočet by 
 - za rok proběhne v ČR 140 milionů ambulantních ošetření ([Zdravotnická ročenka ČR 2012](http://www.uzis.cz/publikace/zdravotnicka-rocenka-ceske-republiky-2012): 135 786 630)
 - každé ošetření bude vyžadovat přenesení jednoho dokumentu mezi nemocnicemi
 - všechna ošetření probíhají během 8 pracovních hodin 250 pracovních dnů roku (simulace špičky)
-- v ČR se nachází 200 nemocnic ([Nemocnice v České republice v roce 2012](http://www.uzis.cz/rychle-informace/nemocnice-ceske-republice-roce-2012): 188)
+- v ČR se nachází zhruba 200 nemocnic ([Nemocnice v České republice v roce 2012](http://www.uzis.cz/rychle-informace/nemocnice-ceske-republice-roce-2012): 188)
 - všechny nemocnine jsou rovnoměrně zatížené
 - přenášené dokumenty mají velikost 1 MB
 - záznam v indexu má 100 B
