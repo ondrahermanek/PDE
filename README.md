@@ -200,15 +200,15 @@ Předpoklady výpočtu (mnohé velmi nereálné, ale pro rámcový výpočet by 
 - každé ošetření bude vyžadovat přenesení jednoho dokumentu mezi nemocnicemi
 - všechna ošetření probíhají během 8 pracovních hodin 250 pracovních dnů roku (simulace špičky)
 - v ČR se nachází zhruba 200 nemocnic ([Nemocnice v České republice v roce 2012](http://www.uzis.cz/rychle-informace/nemocnice-ceske-republice-roce-2012): 188)
-- všechny nemocnine jsou rovnoměrně zatížené
+- nemocnice jsou rovnoměrně zatížené
 - přenášené dokumenty mají velikost 1 MB
 - záznam v indexu má 100 B
 
-Z těchto předpokldů vychází, že v ČR probíhá 70 000 ošetření za hodinu = cca 20 ošetření za sekundu = cca 0,1 ošetření za sekundu v obvodu každé nemocnice. To znamená, že každá nemocnice bude potřebovat kapacitu 800 kb/s jak na upload, tak na download, což v dnešních podmínkách není sebemenší problém.
+Z těchto předpokladů vychází, že v ČR probíhá 70 000 ošetření za hodinu = cca 20 ošetření za sekundu = cca 0,1 ošetření za sekundu v obvodu každé nemocnice. To znamená, že každá nemocnice bude potřebovat kapacitu 800 kb/s jak na upload, tak na download, což v dnešních podmínkách není sebemenší problém.
 
 Vzhledem k velmi malé velikosti položek indexu bude potřeba k synchronizaci jedné nemocnice se všemi ostaními nemocnicemi cca 16 kb/s, což taktéž není problém.
 
-Průběh zpracování požadavku na přenesení dokumentu, který není umístěný v lokální nemocnici, probáhá následovně:
+Průběh zpracování požadavku na přenesení dokumentu, který není umístěný v lokální nemocnici:
 
 1. přenos požadavku do lokální nemocnice
 2. zpracování požadavku v lokální nemocnici
