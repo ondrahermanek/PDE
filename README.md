@@ -11,7 +11,7 @@ Doktor při každé návštěvě (nového) pacienta zjišťuje jeho anamnézu - 
 
 Současný stav výměny dokumentace mezi doktory je následující: když doktor posílá pacienta za jiným doktorem na nějaké vyšetření, vytiskne mu jeho kartu, kterou musí pacient donést tomu jinému doktorovi. Tak karta ale obsahuje jen informace od prvního doktora. Po vyšetření by pacient kartu měl správně odevzdat svému obvodnímu doktorovi, ale často se tak neděje a pacienti si kartu nechávají, ztrácí nebo vyhazují.
 
-O řešení tohoto problému se již v minulosti snažil projekt **IZIP**, který neuspěl především z důvodu, že systém byl centralizovaný v rukou pojišťoven, které kontrolovali, jestli doktoři dělají, co vykazují, že dělají (což někdy kvůli přísným limitům donktoři obcházeli v dobré víře lépe pomoci více lidem).
+O řešení tohoto problému se již v minulosti snažil projekt **IZIP**, který neuspěl především z důvodu, že systém byl centralizovaný v rukou pojišťoven, které kontrolovali, jestli doktoři dělají, co vykazují, že dělají (což někdy kvůli přísným limitům doktoři obcházeli v dobré víře lépe pomoci více lidem).
 
 # Motivace #
 Cílem tohoto projektu je navrhnout systém, který umožní doktorům získat celkovou dokumentaci pacienta a obohacovat ji. Systém bude o každém pacientovi obsahovat seznam všech návštěv u doktorů, popis vyšetření a nějakou výstupní zprávu. Tato dokumentace bude přístupná na vyžádání - doktor při vyšetření, běhěm výjezdu sanitního vozu.
@@ -19,37 +19,38 @@ Cílem tohoto projektu je navrhnout systém, který umožní doktorům získat c
 # Ideální svět #
 Všichni dokotři a zdravotnická zařízení mají telefon a přístup k počítači se zabezpečeným internetovým připojením, díky kterému budou moci pacientovu dokumentaci sdílet. Všichni doktoři se sdílením dokumentace souhlasí, všichni pacienti také. 
 
-# První návrh řešení #
+# Návrh řešení #
 ## Centralizované / distribuované řešení ##
 Systém může uchovávat dokumentaci na jednom místě, to má ale mnoho nevýhod - dostupnost, komunikační náročnost, ochrana osobních údajů, veliké množství dat. Tato centra se dají duplikovat - ochrana proti výpadku, ale tím dostáváme distribuovaný systém, kterému roste náročnost na synchronizaci mezi jednotlivými uzly.
 
-Proto navrhujeme kompromisní řešení - centralizovat dokumentaci v daných uzlech a distribuovaně šířit pouze **Index** - seznam pacientů a jejich navštěv u doktorů a kódu vyšetření. Tento index bude určovat, na kterém centrálním uzlu leží jaká konkrétní **Dokumentace**.
+Proto navrhujeme kompromisní řešení - centralizovat dokumentaci v uzlech a distribuovaně šířit pouze **Index** - seznam pacientů a jejich navštěv u doktorů a kódu vyšetření. Tento index bude určovat, na kterém uzlu leží jaká konkrétní **Dokumentace**.
 
 ## Index ##
 Pro **Index** očekáváme řádově desítky milionů záznamů, proto bude kladen důraz na minimální velikost jednoho záznamu. Ideálně tedy: 
 
-<pre>ID pacienta | ID vyšetřujícího doktora | Datum vyšetření | ID zákroku | ID zařízení, kde je **Dokumentace** uložena</pre>
+<code>ID pacienta | ID vyšetřujícího doktora | Datum vyšetření | ID zákroku | ID zařízení, kde je **Dokumentace** uložena</code>
 
 Jako ID pacienta by šlo použít jeho rodné číslo, to ale není unikátní, proto jako ID bude použijeme rodné číslo kombinované s celým jménem pacienta.
 
-ID doktora bude bráno jako kombinace názvu jeho informačního systému, který používá, a přihlašovacího jména, kterým se přihlašuje. Tyto informační systémy si unikátnost přihlašovacích údajů řeší samy, tedy unikátnost takto vytvořených ID je zaručena. Případné kolize se dají řešit při registraci doktora do PDE systému.
+ID doktora bude bráno jako kombinace názvu informačního systému, který používá, a přihlašovacího jména, kterým se přihlašuje. Tyto informační systémy si unikátnost přihlašovacích údajů řeší samy, tedy unikátnost takto vytvořených ID je zaručena. Případné kolize se dají řešit při registraci doktora do PDE systému.
 
 ## Dokumentace pacientů ##
-**Dokumentace** se bude uchovávat centralizovaně v daných uzlech - zdravotnická zařízení nebo zdravotní pojišťovny nebo obvodní lékaři. Doktoři budou dokumentaci na tyto uzly nahrávat - doktoři v nemocnicích přímo v rámci nemocničního systému, soukromí doktoři přes nějaké webové rozhraní nebo pomocí svých informačních systémů, které budou s tímto celým systémem komunikovat. Jednotlivé uzly se budou starat o zabezpečení osobních údajů, o dostupnost dokumentace a o aktualizaci **Index**u.
+**Dokumentace** se bude uchovávat centralizovaně v tzv. uzlech. Doktoři budou dokumentaci na tyto uzly nahrávat - doktoři v nemocnicích přímo v rámci nemocničního systému, soukromí doktoři přes nějaké webové rozhraní nebo pomocí svých informačních systémů, které budou s tímto celým systémem komunikovat. Jednotlivé uzly se budou starat o zabezpečení osobních údajů, o dostupnost dokumentace a o aktualizaci **Index**u.
 
-Logicky nejsprávnější by bylo uchovávat dokumentaci paciantů u jejich obvodních lékařů, kteří by o svých pacientech měli vědět vše (tedy mít veškerou jejich dokumentaci). To by znamenalo vybavit každého doktora serverem, který bude idálně 24/7/356 dostupný a zabezpečený proti zneužití. 
+Logicky nejsprávnější by bylo uchovávat dokumentaci paciantů u jejich obvodních lékařů, kteří by o svých pacientech měli vědět vše (tedy mít veškerou jejich dokumentaci). To by znamenalo vybavit každého doktora serverem, který bude idálně 24/7/365 dostupný a zabezpečený proti zneužití. 
 
 Proto budou zřízeny centralizované uzly v nemocnicích a každému zdravotníkovi bude určen (přiřazen pri registraci) jeden uzel, který bude uchovávat dokumentaci jeho paicentů.
 
-## Zdravotnická dokumentace ##
-Dokumentace se bude uchovávat centralizovaně v daných uzlech - zdravotnická zařízení nebo zdravotní pojišťovny nebo obvodní lékaři. Doktoři budou dokumentaci na tyto uzly nahrávat - doktoři v nemocnicích přímo v rámci nemocničního systému, soukromí doktoři přes nějaké webové rozhraní nebo pomocí svých informačních systémů, které budou s tímto celým systémem komunikovat. Jednotlivé uzly se budou starat o zabezpečení osobních údajů, o dostupnost dokumentace a o aktualizaci **Index**u.
+## Další údaje ##
+
+TODO: informace o doktorech (kontaktní údaje etc.), informace o pacientech
 
 ## Slovník ##
 Zde je uveden význam používaných pojmů
 
 - **Dokumentace** - Záznam o vyšetření pacienta
 - **Index** - Záznam o tom, na kterém uzlu ze nachází jaká **Dokumentace**
-- **Centrální uzel** - Uzel, kde se ukládá **Dokumentace**, **Index** a odkud se distribuují okolním uzlům
+- **Centrální uzel** - Uzel, kde se ukládá **Dokumentace**, **Index** a odkud se distribuují okolním uzlům a doktorům
 	- *lokální* - uzel, kam doktor nahrává  **Dokumentaci** (myšleno v kontextu doktora)
 	- *vzdálený* - ostatní uzly, kde se nachází dokumentace, doktor na něj dokumentaci nenahrává, pouze ji může získat (myšleno v kontextu doktora)
 
