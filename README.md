@@ -88,18 +88,15 @@ Vyšetřující doktor provede vyšetření pacientovi. Vyplní informace o vyš
 Zdravotnické informační systémy: Medicus, ...
 
 ## Zprávy ##
-- Zadost o Index
-	- <pre>datum | doktorId | pacientId</pre>
-- Odpoved Indexu
-   - <pre>[ documentId | uzelId | pacientId | doktorId | doktorTelefon | doktorInfo|  typVysetreni | datumZmeny |  pacientInfo ]</pre>
-- Zadost o dokumentaci
-	- <pre>datum | doktorId | pacientId | uzelId | document</pre>
-- Odpoved s  dokumentaci
-		- vlasntí **Dokumentace**
-- Vlozeni/Update/Delete **Dokumentace**:
-    - <pre>datumVytvoreni | datumAkce | doktorId | pacientId | typVysetreni | typAkce | vlastni dokumentace | pacientInfo </pre>
-- Synchronizace indexu:
-   <pre>datumVytvoreni | datumAkce | doktorId | pacientId | typVysetreni | typAkce | dokumentaceId | pacientInfo</pre>
+
+TODO: přidal bych aspoň trochu vysvětlení, protože mě třeba není jasné, proč žádost o index obsahuje `doktorId` (kterého doktora?) a nebo co znamenají `[]` (kolekce?)
+
+- Žádost o Index: <br> <code>datum | doktorId | pacientId</code>
+- Odpověď Indexu: <br> <code>[ dokumentId | uzelId | pacientId | doktorId | doktorTelefon | doktorInfo | typVysetreni | datumZmeny | pacientInfo ]</code>
+- Žádost o dokumentaci: <br> <code>datum | doktorId | pacientId | uzelId | document</code>
+- Odpověď s dokumentací: <br> vlastní **Dokumentace** (TODO: nebudou potřeba nějaká metadata?)
+- Vložení/Aktualizace/Smazání **Dokumentace**: (TODO: na smazání bude stačit ID, ale to znamená, že by to chtělo přidat odpověď na vložení; nechtělo by to aktualizaci informací o pacientovi zvlášt?) <br> <code>datumVytvoreni | datumAkce | doktorId | pacientId | typVysetreni | typAkce | vlastni dokumentace | pacientInfo</code>
+- Synchronizace indexu: <br> <code>datumVytvoreni | datumAkce | doktorId | pacientId | typVysetreni | typAkce | dokumentaceId | pacientInfo</code>
 
 # DÚ 1#
 - Modularizace - schéma základního rozdělení na moduly a jejich vazby
