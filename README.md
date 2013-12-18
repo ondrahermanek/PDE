@@ -55,21 +55,19 @@ Zde je uveden význam používaných pojmů
 
 ## Přístupnost dokumentace ##
 ### Jak bude dokumentace přístupná? ###
-- Všichni vidí vše - porušení ochrany osobních údajů
+- Všichni vidí vše - není ideální, doktoři by neměli nahlížet do dokumentace cizích pacientů, pokud to není potřeba
 - Nikdo nevidí nic - nebylo by co sdílet
 - Přístupné jen něco - relevantní data mohou být zrovna nepřístupná
 - Výchozí dostupnost?
-
-Bude potřeba stanovit, co je dovoleno sdílet a co naopak dovoleno sdílet není. Zároveň by měl existovat způsob, jak bude možné přistoupit k relevantním infomacím, které mohou být nepřístupné z důvodu nevhodného nastavení.
 
 ### Kdo bude určovat viditelnost informací? ###
 - Pacient určuje, co bude dostupné a co ne - jak to změní?
 - Doktor určuje, co bude dostupné a co ne - měl by mít pacientův souhlas?
 
-Asi by mělo záležet na domluvě doktora a pacienta, co se může sdílet a co ne. Doktor by se měl snažit sdílet maximum relevantních informací (on ví, co je relevantní lépe, než pacient).
-
-## Přístupnost dokumentace ##
+### Zvolené řešení ###
 Veškeré **Dokumentace** budou přístupné všem doktorům. Pro ochranu osobních údajů proti zneužití bude každá akce - vytvoření/úprava/mazání/vyžádání **Dokumentace** - zalogována. Bude tedy možné dohledat, který doktor přistoupil k jaké **Dokumentaci**.
+
+Toto řešení bylo zvoleno, protože omezování přístupu doktorů k dokumentaci by vedlo k problémům (např. doktor nemůže vyšetřit pacienta, protože mu omylem nebylo dáno právo přístupu k jeho dokumentaci). Na druhou stranu, do systému mají přístup jen autentizovaní doktoři, takže riziko zneužití zřejmě není tak velké (ve srovnání se systémy, které jsou veřejně přístupné).
 
 ## Registrace doktorů ##
 Každý doktor se zaregistruje do systému PDE, dostane pevné ID a náhodný token, pod kterým bude identifikován v rámci systému, rovněž mu bude přiřazen centrální uzel, se kterým bude jeho zdravotnický IS komunikovat. Při registraci uvede rovněž telefonní číslo a další údaje. 
