@@ -91,7 +91,7 @@ Předpoklady výpočtu (mnohé velmi nereálné, ale pro rámcový výpočet by 
 - za rok proběhne v ČR 140 milionů ambulantních ošetření ([Zdravotnická ročenka ČR 2012](http://www.uzis.cz/publikace/zdravotnicka-rocenka-ceske-republiky-2012): 135 786 630)
 - každé ošetření bude vyžadovat přenesení jednoho dokumentu mezi nemocnicemi
 - všechna ošetření probíhají během 8 pracovních hodin 250 pracovních dnů roku (simulace špičky)
-- v ČR se nachází zhruba 200 nemocnic ([Nemocnice v České republice v roce 2012](http://www.uzis.cz/rychle-informace/nemocnice-ceske-republice-roce-2012): 188)
+- v ČR se nachází 200 nemocnic ([Nemocnice v České republice v roce 2012](http://www.uzis.cz/rychle-informace/nemocnice-ceske-republice-roce-2012): 188)
 - nemocnice jsou rovnoměrně zatížené
 - přenášené dokumenty mají velikost 1 MB
 - záznam v indexu má 100 B
@@ -168,12 +168,20 @@ Případ, že útočník je lékař (případně někdo, kdo získal jeho heslo)
 
 Tady se počítá s tím, že přístup k datům může být důležitý. To znamená, že jakékoliv omezování přístupu je nevhodné a že zvýšené riziko neoprávněného přístupu je akceptovatelné.
 
-
-
 # Nároky systému #
 
-### TODO ###
+### Uzly ###
 
+Pro servery v nemocnicích je potřeba:
+
+* připojení k Internetu rychlostí alespoň 2 Mb/s v obou směrech (1Mb/s na komunikaci s ostatními ulzly, 1Mb/s na komunikaci s lékaři)
+* místo na disku 1 TB na každý rok uložených dat (700 GB data, která patří tomuto uzlu; 14 GB index dat všech uzlů)
+* 2 GHz CPU, 1 GB RAM (požadavky nejsou vysoké, protože sever nebude provádět složité výpočty)
+* servery i disky zdvojené, pro zajištění vyšší spolehlivosti
+
+### Počítače lékařů ###
+
+Na počítače lékařů nejsou kladeny žádné zvláštní požadavky, stačí libovolný moderní desktop s 1 MB/s přístupem k Internetu (tato rychlost je potřeba k dosažení požadované latence).
 
 
 # Kvalitativní atributy systému #
