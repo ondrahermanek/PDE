@@ -62,13 +62,15 @@ Jako ID pacienta by šlo použít jeho rodné číslo, to ale není unikátní, 
 ID doktora bude bráno jako kombinace názvu informačního systému, který používá, a přihlašovacího jména, kterým se přihlašuje. Tyto informační systémy si unikátnost přihlašovacích údajů řeší samy, tedy unikátnost takto vytvořených ID je zaručena. Případné kolize se dají řešit při registraci doktora do PDE systému.
 
 ##### Zprávy #####
-TODO: přidal bych aspoň trochu vysvětlení, protože mě třeba není jasné, proč žádost o index obsahuje `doktorId` (kterého doktora?) a nebo co znamenají `[]` (kolekce?)
 
-- Žádost o Index: <br> <code>datum | doktorId | pacientId</code>
+- Žádost o Index: <br> <code>pacientId</code>
 - Odpověď Indexu: <br> <code>dokumentId | uzelId | pacientId | doktorId | doktorTelefon | doktorInfo | typVysetreni | datumZmeny | pacientInfo</code>
-- Žádost o dokumentaci: <br> <code>datum | doktorId | pacientId | uzelId | document</code>
-- Odpověď s dokumentací: <br> vlastní **Dokumentace** (TODO: nebudou potřeba nějaká metadata?)
-- Vložení/Aktualizace/Smazání **Dokumentace**: (TODO: na smazání bude stačit ID, ale to znamená, že by to chtělo přidat odpověď na vložení; nechtělo by to aktualizaci informací o pacientovi zvlášt?) <br> <code>datumVytvoreni | datumAkce | doktorId | pacientId | typVysetreni | typAkce | vlastni dokumentace | pacientInfo</code>
+- Žádost o dokumentaci: <br> <code>pacientId | uzelId | dokumentId</code>
+- Odpověď s dokumentací: <br> vlastní **Dokumentace**
+- Vložení **Dokumentace**: <br> <code>datumVytvoreni | datumAkce | doktorId | pacientId | typVysetreni | typAkce | vlastni dokumentace </code>
+- Aktualizace **Dokumentace**: <br> <code>dokumentId | datumVytvoreni | datumAkce | doktorId | pacientId | typVysetreni | typAkce | vlastni dokumentace </code>
+- Smazání **Dokumentace**: <br> <code> dokumentID </code>
+- Aktualizace informací o pacientovi: <br> <code> pacientID | pacientInfo </code>
 - Synchronizace indexu: <br> <code>datumVytvoreni | datumAkce | doktorId | pacientId | typVysetreni | typAkce | dokumentaceId | pacientInfo</code>
 
 ### Výkon systému ###
