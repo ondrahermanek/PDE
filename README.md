@@ -73,8 +73,8 @@ ID doktora bude bráno jako kombinace názvu informačního systému, který pou
 - Synchronizace indexu: <br> <code>datumVytvoreni | datumAkce | doktorId | pacientId | typVysetreni | dokumentaceId | pacientInfo</code>
 - Aktualizace informací o pacientovi: <br> <code> pacientID | pacientInfo </code>
 - Aktualizace informací o lékaři: <br> <code> doktorInfo </code>
-- Žádost o informace o lékaři: <br> <code> doktorId <code>
-- Odpověď s informacemi o lékaři: <br> <code> doktorInfo <code>
+- Žádost o informace o lékaři: <br> <code> doktorId </code>
+- Odpověď s informacemi o lékaři: <br> <code> doktorInfo </code>
 
 ### Výkon systému ###
 Nejdůležitější výkonostní požadavky na systém jsou:
