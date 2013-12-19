@@ -244,15 +244,15 @@ Tento diagram popisuje průběh synchronizace **Index**u mezi všemy uzly.
 
 Zde je uveden význam používaných pojmů
 
-- **Dokumentace** - Záznam o vyšetření pacienta
-- **Index** - Záznam o tom, na kterém uzlu ze nachází jaká **Dokumentace**
 - **Centrální uzel** - Uzel, kde se ukládá **Dokumentace**, **Index** a odkud se distribuují okolním uzlům a lékařům
 	- *lokální* - uzel, kam lékař nahrává  **Dokumentaci** (myšleno v kontextu lékaře)
 	- *vzdálený* - ostatní uzly, kde se nachází dokumentace, lékař na něj dokumentaci nenahrává, pouze ji může získat (myšleno v kontextu lékaře)
-- **Zdravotnický IS** - informační systém lékaře pro správu pacientů
+- **Dokumentace** - Záznam o vyšetření pacienta
+- **DoS** - Denial of Service - útok pomocí přehlcení požadavky
+- **Index** - Záznam o tom, na kterém uzlu ze nachází jaká **Dokumentace**
 - **Login** - přihlašovací jméno
-- **Token** - slouží spolu s uživatelským přihlašovacím jménem a autorizaci a autentizaci požadavků
 - **MTBF** - Mean Time Between Failures - střední doba mezi selháními 
 - **MTTR** - Mean Time To Repair - střední doba nutná pro opravu
-- **DoS** - Denial of Service - útok pomocí přehlcení požadavky
 - **TLS** - Transport Layer Security - kryptografický protokol pro zabezpečení komunikace
+- **Token** - slouží spolu s uživatelským přihlašovacím jménem a autorizaci a autentizaci požadavků
+- **Zdravotnický IS** - informační systém lékaře pro správu pacientů
