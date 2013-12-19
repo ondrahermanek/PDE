@@ -48,22 +48,25 @@ Jako jeho identifikátor bude považována kombinace názvu jeho zdravotnického
 #### Index ####
 Pro **Index** očekáváme řádově desítky milionů záznamů, proto bude kladen důraz na minimální velikost jednoho záznamu. Ideálně tedy: 
 
-<code>ID pacienta | ID vyšetřujícího doktora | Datum vyšetření | ID zákroku | ID zařízení, kde je **Dokumentace** uložena</code>
+<code> pacientId | lekarId | datum | typVysetreni | uzelId | dokumentId</code>
 
 Jako ID pacienta by šlo použít jeho rodné číslo, to ale není unikátní, proto jako ID bude použijeme rodné číslo kombinované s celým jménem pacienta.
 
-ID doktora bude bráno jako kombinace názvu informačního systému, který používá, a přihlašovacího jména, kterým se přihlašuje. Tyto informační systémy si unikátnost přihlašovacích údajů řeší samy, tedy unikátnost takto vytvořených ID je zaručena. Případné kolize se dají řešit při registraci doktora do PDE systému.
+ID lékaře bude bráno jako kombinace názvu informačního systému, který používá, a přihlašovacího jména, kterým se přihlašuje. Tyto informační systémy si unikátnost přihlašovacích údajů řeší samy, tedy unikátnost takto vytvořených ID je zaručena. Případné kolize se dají řešit při registraci doktora do PDE systému.
 
 #### Zprávy ####
 - Žádost o Index: <br> <code>pacientId</code>
-- Odpověď Indexu: <br> <code>dokumentId | uzelId | pacientId | doktorId | doktorTelefon | doktorInfo | typVysetreni | datumZmeny | pacientInfo</code>
-- Žádost o dokumentaci: <br> <code>pacientId | uzelId | dokumentId</code>
+- Odpověď Indexu: <br> <code>dokumentId | uzelId | pacientId | lekarId | lekarTelefon | lekarInfo | typVysetreni | datumZmeny | pacientInfo</code>
+- Žádost o dokumentaci: <br> <code> uzelId | dokumentId</code>
 - Odpověď s dokumentací: <br> vlastní **Dokumentace**
-- Vložení **Dokumentace**: <br> <code>datumVytvoreni | datumAkce | doktorId | pacientId | typVysetreni | typAkce | vlastni dokumentace </code>
-- Aktualizace **Dokumentace**: <br> <code>dokumentId | datumVytvoreni | datumAkce | doktorId | pacientId | typVysetreni | typAkce | vlastni dokumentace </code>
+- Vložení **Dokumentace**: <br> <code>datumVytvoreni | datumAkce | lekarId | pacientId | typVysetreni | vlastni dokumentace </code>
+- Aktualizace **Dokumentace**: <br> <code>dokumentId | datumVytvoreni | datumAkce | lekarId | pacientId | typVysetreni | vlastni dokumentace </code>
 - Smazání **Dokumentace**: <br> <code> dokumentID </code>
+- Synchronizace indexu: <br> <code>datumVytvoreni | datumAkce | lekarId | pacientId | typVysetreni | dokumentaceId | pacientInfo</code>
 - Aktualizace informací o pacientovi: <br> <code> pacientID | pacientInfo </code>
-- Synchronizace indexu: <br> <code>datumVytvoreni | datumAkce | 3orId | pacientId | typVysetreni | typAkce | dokumentaceId | pacientInfo</code>
+- Aktualizace informací o lékaři: <br> <code> lekarInfo </code>
+- Žádost o informace o lékaři: <br> <code> lekarId </code>
+- Odpověď s informacemi o lékaři: <br> <code> lekarInfo </code>
 
 ### Výkon systému ###
 Nejdůležitější výkonnostní požadavky na systém jsou:
@@ -80,7 +83,7 @@ Předpoklady výpočtu (mnohé velmi nereálné, ale pro rámcový výpočet by 
 - za rok proběhne v ČR 140 milionů ambulantních ošetření ([Zdravotnická ročenka ČR 2012](http://www.uzis.cz/publikace/zdravotnicka-rocenka-ceske-republiky-2012): 135 786 630)
 - každé ošetření bude vyžadovat přenesení jednoho dokumentu mezi nemocnicemi
 - všechna ošetření probíhají během 8 pracovních hodin 250 pracovních dnů roku (simulace špičky)
-- v ČR se nachází zhruba 200 nemocnic ([Nemocnice v České republice v roce 2012](http://www.uzis.cz/rychle-informace/nemocnice-ceske-republice-roce-2012): 188)
+- v ČR se nachází 200 nemocnic ([Nemocnice v České republice v roce 2012](http://www.uzis.cz/rychle-informace/nemocnice-ceske-republice-roce-2012): 188)
 - nemocnice jsou rovnoměrně zatížené
 - přenášené dokumenty mají velikost 1 MB
 - záznam v indexu má 100 B
@@ -155,12 +158,20 @@ Případ, že útočník je lékař (případně někdo, kdo získal jeho heslo)
 
 Tady se počítá s tím, že přístup k datům může být důležitý. To znamená, že jakékoliv omezování přístupu je nevhodné a že zvýšené riziko neoprávněného přístupu je akceptovatelné.
 
-
-
 # Nároky systému #
 
-### TODO ###
+### Uzly ###
 
+Od serverů v nemocnicích požadujeme:
+
+* připojení k Internetu rychlostí alespoň 2 Mb/s v obou směrech (1Mb/s na komunikaci s ostatními ulzly, 1Mb/s na komunikaci s lékaři)
+* místo na disku pro data 1 TB na každý rok (700 GB data, která patří tomuto uzlu; 14 GB index dat všech uzlů)
+* 2 GHz CPU, 1 GB RAM (požadavky nejsou vysoké, protože sever nebude provádět složité výpočty)
+* servery i disky zdvojené, pro zajištění vyšší spolehlivosti
+
+### Počítače lékařů ###
+
+Na počítače lékařů nejsou kladeny žádné zvláštní požadavky, stačí libovolný moderní desktop s 1 Mb/s přístupem k Internetu (tato rychlost je potřeba k dosažení požadované latence).
 
 
 # Kvalitativní atributy systému #
