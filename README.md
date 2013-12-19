@@ -172,16 +172,16 @@ Tady se počítá s tím, že přístup k datům může být důležitý. To zna
 
 ### Uzly ###
 
-Pro servery v nemocnicích je potřeba:
+Od serverů v nemocnicích požadujeme:
 
 * připojení k Internetu rychlostí alespoň 2 Mb/s v obou směrech (1Mb/s na komunikaci s ostatními ulzly, 1Mb/s na komunikaci s lékaři)
-* místo na disku 1 TB na každý rok uložených dat (700 GB data, která patří tomuto uzlu; 14 GB index dat všech uzlů)
+* místo na disku pro data 1 TB na každý rok (700 GB data, která patří tomuto uzlu; 14 GB index dat všech uzlů)
 * 2 GHz CPU, 1 GB RAM (požadavky nejsou vysoké, protože sever nebude provádět složité výpočty)
 * servery i disky zdvojené, pro zajištění vyšší spolehlivosti
 
 ### Počítače lékařů ###
 
-Na počítače lékařů nejsou kladeny žádné zvláštní požadavky, stačí libovolný moderní desktop s 1 MB/s přístupem k Internetu (tato rychlost je potřeba k dosažení požadované latence).
+Na počítače lékařů nejsou kladeny žádné zvláštní požadavky, stačí libovolný moderní desktop s 1 Mb/s přístupem k Internetu (tato rychlost je potřeba k dosažení požadované latence).
 
 
 # Kvalitativní atributy systému #
