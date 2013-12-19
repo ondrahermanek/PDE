@@ -165,6 +165,12 @@ Tady se počítá s tím, že přístup k datům může být důležitý. To zna
 
 
 
+# Nároky systému #
+
+### TODO ###
+
+
+
 # Kvalitativní atributy systému #
 
 - [Kvalitativní atributy](http://msdn.microsoft.com/en-us/library/ee658094.aspx)
