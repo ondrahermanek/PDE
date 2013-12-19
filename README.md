@@ -65,7 +65,7 @@ ID doktora bude bráno jako kombinace názvu informačního systému, který pou
 
 - Žádost o Index: <br> <code>pacientId</code>
 - Odpověď Indexu: <br> <code>dokumentId | uzelId | pacientId | doktorId | doktorTelefon | doktorInfo | typVysetreni | datumZmeny | pacientInfo</code>
-- Žádost o dokumentaci: <br> <code>pacientId | uzelId | dokumentId</code>
+- Žádost o dokumentaci: <br> <code> uzelId | dokumentId</code>
 - Odpověď s dokumentací: <br> vlastní **Dokumentace**
 - Vložení **Dokumentace**: <br> <code>datumVytvoreni | datumAkce | doktorId | pacientId | typVysetreni | typAkce | vlastni dokumentace </code>
 - Aktualizace **Dokumentace**: <br> <code>dokumentId | datumVytvoreni | datumAkce | doktorId | pacientId | typVysetreni | typAkce | vlastni dokumentace </code>
