@@ -6,9 +6,6 @@ PDE - Patient Documentation Exchange
 - Filip Řepka (repik (dot) x (at) seznam.cz)
 - Ondra Heřmánek (ondra (dot) hermanek (at) gmail.com)
 
-
-
-
 # Úvod #
 
 ### Motivace ###
@@ -16,7 +13,7 @@ Lékař při každé návštěvě (nového) pacienta zjišťuje jeho anamnézu -
 
 Současný stav výměny dokumentace mezi lékaři je následující: pokud lékař posílá pacienta za jiným lékařem na nějaké vyšetření, vytiskne mu jeho kartu, kterou musí pacient s sebou donést zmíněnému lékaři. Karta tedy obsahuje jen informace od prvního lékaře. Po vyšetření by měl správně pacient kartu odevzdat svému obvodnímu lékaři, ale často se tak neděje a pacienti si kartu nechávají, ztrácí nebo vyhazují.
 
-O řešení tohoto problému se již v minulosti snažil projekt **IZIP**, který neuspěl především z důvodu, že systém byl centralizovaný a v rukou pojišťoven, které kontrolovaly, zdali doktoři provedli vše, co vykázali (což často kvůli přísným limitům doktoři v dobré víře a snaze pomoci lidem obcházeli)
+O řešení tohoto problému se již v minulosti snažil projekt **IZIP**, který neuspěl především z důvodu, že systém byl centralizovaný a v rukou pojišťoven, které kontrolovaly, zdali lékař provedli vše, co vykázali (což často kvůli přísným limitům lékaři v dobré víře a snaze pomoci lidem obcházeli)
 
 ### Cíl projektu ###
 Cílem tohoto projektu je navrhnout systém, který umožní lékařům získat celkovou dokumentaci pacienta a obohacovat ji. Systém bude o každém pacientu udržovat seznam všech jeho návštěv lékařů, popis vyšetření a výstupní zprávu. Tato dokumentace bude přístupná na vyžádání (při vyšetření, běhěm výjezdu sanitního vozu).
@@ -24,35 +21,31 @@ Cílem tohoto projektu je navrhnout systém, který umožní lékařům získat 
 ### Předpokládaná ideální situace ###
 Všichni lékaři a zdravotnická zařízení vlastní telefon a počítač se zabezpečeným internetovým připojením, díky kterému budou moci pacientovu dokumentaci sdílet. Všichni lékaři se sdílením dokumentace souhlasí, všichni pacienti také.
 
-
-
 # Vlastnosti systému #
 
 ### Celkový pohled ###
 ![Component Model](doc/ComponentModel.png)
 
-Každý zdravotní informační systém komunikuje s centralizovaným uzlem přes zabezpečené Web API. Každý požavek na centralizovaný uzel je před zpracováním verifikován - proběhne autorizace a autentizace zdravotnického systému, který požadavek vytovořil, zároveň proběhne kontrola proti zahlcení požadavky. Zdravotnický systém si může vyžádat **Index** se záznamy pacienta, ktérého zrovna léčí, nebo přímo zvolenou **Dokumentace**.
+Systém se bude skládat z **Centalizovaných uzlů**, které budou uchovávat zdravotnickou **Dokumentaci** a **Zdravotnických IS**, přes které budou lékaři pracovat se zdravoutnickou **Dokumentaci**. Centalizované uzly se budou nacházet ve všech nemocnicích a každý lékaž bude mít určený uzel, se kterým bude přes svůj IS komunikovat. Centralizované uzly budou komunikovat přes zabezpečené Web API (`WebApi` komponenta).
 
-### Uložení informací ###
-Systém bude centralizovat dokumentaci v uzlech (jednotlivé nemocnice) a bude distribuovat **Index** - seznam pacientů, jejich navštěv u lékařů a kód vyšetření. Tento index bude určovat, na kterém uzlu leží určitá konkrétní **Dokumentace**.
+Každý požavek na centralizovaný uzel je před zpracováním verifikován - proběhne autorizace a autentizace zdravotnického systému, který požadavek vytovořil, zároveň proběhne kontrola proti zahlcení požadavky (`TrafficControl` komponenta). 
 
-##### Dokumentace pacientů #####
-Budou zřízeny centralizované uzly v nemocnicích a každému zdravotníkovi bude určen (při registraci přiřazen) jeden uzel, který bude uchovávat dokumentaci jeho pacientů.
+Každý uzel bude uchovávat **Dokumentaci** od předem určených lékařů, a ostatním uzlům bude distribuovat pouze informace - **Index** - o tom, jakou **Dokumentaci** uchovává. Všechny uzly tedy ví, kde se nachází jaká **Dokumentace**. 
 
-**Dokumentace** se bude uchovávat centralizovaně v uzlech (nemocnicích). Lékaři budou dokumentaci na tyto uzly nahrávat - lékaři v nemocnicích přímo v rámci nemocničního systému, soukromí lékaři přes webové rozhraní nebo pomocí svých informačních systémů, které budou s tímto systémem komunikovat. Jednotlivé uzly se budou starat o zabezpečení osobních údajů, o dostupnost dokumentace a o aktualizaci **Index**u.
+Zdravotnický systém si může přes svůj určený uzel vyžádat **Index** se záznamy pacienta, ktérého zrovna léčí, nebo přímo zvolenou **Dokumentaci**. Tato **Dokumentace** se buď nachází přímo na tom (lokálním) uzlu, nebo na nějakém vzdáleném. V tomto případě si lokální uzel vyžádá dokumentaci od vzdáleného, zdravotnický systém komunikuje pouze s určeným (lokálním) uzlem.
 
-### Přístup k dokumentaci ###
-Veškeré **Dokumentace** budou přístupné všem doktorům. Pro ochranu osobních údajů proti zneužití bude každá akce - vytvoření/úprava/mazání/vyžádání **Dokumentace** - zaznamenána. Bude tedy možné dohledat, který lékař přistoupil k jaké **Dokumentaci**.
+#### Přístup k dokumentaci ####
+Veškeré **Dokumentace** budou přístupné všem lékařům. Pro ochranu osobních údajů proti zneužití bude každá akce - vytvoření/úprava/mazání/vyžádání **Dokumentace** - zaznamenána. Bude tedy možné dohledat, který lékař přistoupil k jaké **Dokumentaci**.
 
-Toto řešení bylo zvoleno, protože omezování přístupu lékařů k dokumentaci by vedlo k rozsáhlým komplikacím (lékař nemůže vyšetřit pacienta, protože mu omylem nebylo dáno právo přístupu k jeho dokumentaci). Na druhou stranu, do systému mají přístup jen autentizovaní doktoři, takže riziko zneužití není nepřiměřeně vysoké (ve srovnání se systémy, které jsou veřejně přístupné).
+Toto řešení bylo zvoleno, protože omezování přístupu lékařů k dokumentaci by vedlo k rozsáhlým komplikacím (lékař nemůže vyšetřit pacienta, protože mu omylem nebylo dáno právo přístupu k jeho dokumentaci). Na druhou stranu, do systému mají přístup jen autentizovaní lékaři, takže riziko zneužití není nepřiměřeně vysoké (ve srovnání se systémy, které jsou veřejně přístupné).
 
-### Registrace lékařů ###
-Každý lékař se zaregistruje do systému PDE, dostane pevný identifikátor a náhodně vybraný token, pod kterým bude identifikován v rámci systému, rovněž mu bude přiřazen uzel, se kterým bude jeho zdravotnický informační systém komunikovat. Při registraci uvede rovněž telefonní číslo a další potřebné údaje. 
+#### Registrace lékařů ####
+Každý lékař se zaregistruje do systému PDE, dostane pevný identifikátor a náhodně vygenerovaný token, pod kterým bude identifikován v rámci systému, rovněž mu bude přiřazen uzel, se kterým bude jeho zdravotnický informační systém komunikovat. Při registraci uvede rovněž telefonní číslo a další potřebné údaje. 
 
 Jako jeho identifikátor bude považována kombinace názvu jeho zdravotnického informačního systému a přihlašovacích údajů do jeho systému. Token mu bude vygenerován náhodně a bude sloužit k validaci požadavků vyslaných zdravotnickým informačním systémem lékaře.
 
 ### Vyměňované informace ###
-##### Index #####
+#### Index ####
 Pro **Index** očekáváme řádově desítky milionů záznamů, proto bude kladen důraz na minimální velikost jednoho záznamu. Ideálně tedy: 
 
 <code>ID pacienta | ID vyšetřujícího doktora | Datum vyšetření | ID zákroku | ID zařízení, kde je **Dokumentace** uložena</code>
@@ -61,8 +54,7 @@ Jako ID pacienta by šlo použít jeho rodné číslo, to ale není unikátní, 
 
 ID doktora bude bráno jako kombinace názvu informačního systému, který používá, a přihlašovacího jména, kterým se přihlašuje. Tyto informační systémy si unikátnost přihlašovacích údajů řeší samy, tedy unikátnost takto vytvořených ID je zaručena. Případné kolize se dají řešit při registraci doktora do PDE systému.
 
-##### Zprávy #####
-
+#### Zprávy ####
 - Žádost o Index: <br> <code>pacientId</code>
 - Odpověď Indexu: <br> <code>dokumentId | uzelId | pacientId | doktorId | doktorTelefon | doktorInfo | typVysetreni | datumZmeny | pacientInfo</code>
 - Žádost o dokumentaci: <br> <code>pacientId | uzelId | dokumentId</code>
@@ -71,10 +63,10 @@ ID doktora bude bráno jako kombinace názvu informačního systému, který pou
 - Aktualizace **Dokumentace**: <br> <code>dokumentId | datumVytvoreni | datumAkce | doktorId | pacientId | typVysetreni | typAkce | vlastni dokumentace </code>
 - Smazání **Dokumentace**: <br> <code> dokumentID </code>
 - Aktualizace informací o pacientovi: <br> <code> pacientID | pacientInfo </code>
-- Synchronizace indexu: <br> <code>datumVytvoreni | datumAkce | doktorId | pacientId | typVysetreni | typAkce | dokumentaceId | pacientInfo</code>
+- Synchronizace indexu: <br> <code>datumVytvoreni | datumAkce | 3orId | pacientId | typVysetreni | typAkce | dokumentaceId | pacientInfo</code>
 
 ### Výkon systému ###
-Nejdůležitější výkonostní požadavky na systém jsou:
+Nejdůležitější výkonnostní požadavky na systém jsou:
 
 - Přenesení dokumentace na uzel, který si ji vyžádal, by mělo trvat desítky sekund, maximálně jednu minutu.
 - Synchronizace indexů by měla mít zpoždění do 30 minut.
@@ -112,7 +104,8 @@ Pokud předpokládáme, že na přenos tohoto dokumentu je k dispozici 1 Mb/s ve
 ### Verifikace v systému ###
 Verifikační proces bude před každou akcí zavolanou přes Webové API kontrolovat, že ten, kdo akci volá, má správný login a token (pokud volající je zdravotnický IS) a nebo ověří, že volá jiný centrální uzel. Zároveň v rámci verifikace požadavku proběhne i kontrola před zahlcením. Prioritu budou mít požadavky, které přicházejí z adres, které komunikují méně, tedy minimálně zahlcují systém.
 
-TODO - Centralizovaný uzel po verifikaci požadavku 
+###### Centralizovaný uzel po verifikaci požadavku ######
+
 - na **Index**: vrátí **Index** se záznamy pacienta, který má u sebe uložen v lokální databázi
 - na konkrétní záznam: se podle **Indexu** rozhodne, kde záznam vyzvednout
 	- buď je uložen v lokální databázi uzlu
@@ -126,23 +119,20 @@ Centralizované uzly zároveň v daném intervalu synchronizují **Index** mezi 
 ### Dostupnost systému ###
 Snaha bude minimalizovat dobu neplánovaných výpadku i jejich četnost. Počítá se s pravidlnými údržbami, které se budou provádět mimo špičku, ideálně po půlnoci, kdy se předpokládá minimální počet požadavků na systém.
 
-##### Výpadky #####
+#### Výpadky ####
 - plánované výpadky
 	- hodina měsíčně na údržbu (kolem 1:00 ráno)
 - neplnánované výpadky
 	- 30 minut měsíčně
 
-##### Výpočet dostupnosti #####
+#### Výpočet dostupnosti ####
 **MTBF** = předpokládáme polovinu měsíce = 360 hodin
 
 **MTTR** = předpokládáme 3/4 hodiny (1 hodina plánovaný výpadek(údržba), 0,5 hodiny neplánovaný výpadek; průměr = 0.75 hodiny) = 0.75 hodiny
 
 ```Availability = MTBF / (MTBF + MTTR) = 360 / (360 + 0,75) = 0.9979```
 
-Tedy celková dostupnost systému bude činit zhruba 99,8% procent. Tímto se náš systém bude řadit do třídy spolehlivosti 2 - Managed ([slidy RNDr. Jakub Lokoč, Ph.D.](https://docs.google.com/viewer?url=http://siret.ms.mff.cuni.cz/lokoc/UK/Transakce.pdf)).
-
-##### Ochrana proti DoS #####
-Systém bude obsahovat modul ```Traffic Control```, který bude kontrolovat zatížení serverů. V případě přetížení nebude zpracovávat některé požadavky.
+Tedy celková dostupnost systému bude činit zhruba 99,8% procent. Tímto se náš systém bude řadit do třídy spolehlivosti 2 - Managed ([slidy RNDr. Jakuba Lokoče, Ph.D.](https://docs.google.com/viewer?url=http://siret.ms.mff.cuni.cz/lokoc/UK/Transakce.pdf)).
 
 ### Bezpečnost ###
 K zajištění bezpečnosti je potřeba určit, proti jakým druhům útoků se budeme bránit. Předpokládané druhy útoků jsou:
@@ -161,7 +151,7 @@ Lékař nikdy nebude přímo komunikovat se vzdálenými nemocnicemi, takže ten
 
 Veškerá komunikace bude zašifrovaná pomocí TLS, v případě nemocnice pomocí klíče z jejího certifikátu.
 
-Případ, že útočník je lékař (případně někdo, kdo získal jeho heslo) se bude řešit jen logováním: každý přístup do systému se bude logovat, podezřelé přístupy se budou vyšetřovat. Pokud se tímto způsobem zjistí neoprávněný přístup k dokumentům, danému doktorovi se zakáže přistupovat do systému.
+Případ, že útočník je lékař (případně někdo, kdo získal jeho heslo) se bude řešit jen logováním: každý přístup do systému se bude logovat, podezřelé přístupy se budou vyšetřovat. Pokud se tímto způsobem zjistí neoprávněný přístup k dokumentům, danému lékař se zakáže přistupovat do systému.
 
 Tady se počítá s tím, že přístup k datům může být důležitý. To znamená, že jakékoliv omezování přístupu je nevhodné a že zvýšené riziko neoprávněného přístupu je akceptovatelné.
 
@@ -185,7 +175,7 @@ Tady se počítá s tím, že přístup k datům může být důležitý. To zna
 			- Systém bude nabízet API pro komunikaci s ostatnímy systémy
 	- ***RunTime Qualities***
 		- **Availability**
-			- Měl by být kladen důraz na dostupnost API, která sbírají data od doktorů a ukládají je do nemocničních IS (99%).
+			- Měl by být kladen důraz na dostupnost API, která sbírají data od lékařů a ukládají je do nemocničních IS (99%).
 			- Dostupnost dokumentace z nemocničního IS už nemusí být tak ostře hlídána (95%). **TODO: upřesnit,jak jsme došli k těm číslům**
 		- **Performance**
 			- Distribuovaný systém vyžaduje režii na synchronizaci uzlů, proto je potřeba minimalizovat velikost a počet zpráv určených na synchronizaci **Indexu**. Na rychlost přenesení nových informací pomocí synchronizace není kladen zásadní důraz. Za rozumnou horní hranici potřebného času je považováno 30 minut.
@@ -193,10 +183,10 @@ Tady se počítá s tím, že přístup k datům může být důležitý. To zna
 		- **Reliability**
 			- Kladen větší důraz a dostupnost WEB API než na systém přednosu dokumentace. 
 		- **Interoperability**
-			- Kladen důraz na jednoduchou změnu implementaci komunikace s centrálním WEB API u doktorských IS. Jednoduché zabezpečené API (https), jednoduché zprávy ve standardizovaném formátu (XML).
+			- Kladen důraz na jednoduchou změnu implementaci komunikace s centrálním WEB API u lékařských IS. Jednoduché zabezpečené API (https), jednoduché zprávy ve standardizovaném formátu (XML).
 			- Možnost parsovat interní formáty dokotrských IS na straně cenrálních IS.
 		- **Security**
-			- Systém bude manipulovat s citlivými daty a uchovávat je. Vymyslet způsob, jak se bránit DOS útokům, falešným zprávám, falešným doktorům, logovat přístupy pro ochranu osobních údajů.
+			- Systém bude manipulovat s citlivými daty a uchovávat je. Vymyslet způsob, jak se bránit DOS útokům, falešným zprávám, falešným lékařům, logovat přístupy pro ochranu osobních údajů.
 		- Scalability
 			- Už při návrhu je nutné počítat s velkým množstvím přenášených a uchovávaných dat. Velikost přenášených zpráv kolísat nebude, ale velikost ukládaných dat stále poroste.
 			- Tedy spíše *horizontální škálování* (úložné kapacity) než *vertikální škálování* (přenosové kapacity)
@@ -214,7 +204,7 @@ Tady se počítá s tím, že přístup k datům může být důležitý. To zna
 ![Uploading Documentation](doc/DF_UploadDocumentation.png)
 
 Tento diagram znázorňuje tok dat při nahrání dokumentace
-- Doktor vytvoří/upravé ve svém IS, ten se pošle přes Web API určeného centralizovaného uzlu, kde se verifikuje.
+- Lékař vytvoří/upraví ve svém IS, ten se pošle přes Web API určeného centralizovaného uzlu, kde se verifikuje.
 - Pokud verifikace proběhne úspěšně, záznam se uloží a aktualizuje se **Index**.
  
 ![Uploading Documentation](doc/SQ_UploadDocumentation.png)
@@ -225,7 +215,7 @@ Tento diagram detailněji popisuje průběh vytvoření/aktualizace dokumentace 
 ![Obtaining documentation](doc/DF_ObtainDocumentation.png)
 
 Tento diagram ukazuje, jak probíhá získání dané dokumentace
-- Doktor si nejprve vyžádá **Index** dokumentace o pacientovi
+- Lékař si nejprve vyžádá **Index** dokumentace o pacientovi
 - Poté vybere konkrétní dokument, který ho zajímá, a centralizovaný uzel mu jej vyhledá a najde. Každý požadavek je verifikován.
 
 ![Obtaining documentation](doc/SQ_ObtainDocumentation.png)
@@ -239,14 +229,19 @@ Tento diagram popisuje průběh synchronizace **Index**u mezi všemy uzly.
 - Každý uzel zjistí ze své lokální databáze, které záznamy přibyly/byly změněny od poslední synchronizace a tyto záznamy (jako **Index**) rozešle na všechny ostatní uzly
 - Zároveň si kontroluje potvrzení, kterými mu ostatní uzly dávají vědět, že zpracovaly nový obsah **Indexu**. V případě nedodržení potvrzení je **Index** na daný uzel posílán opakovaně, dokud se operace nepodaří.
 
-
-
 # Slovník pojmů #
 
 Zde je uveden význam používaných pojmů
 
 - **Dokumentace** - Záznam o vyšetření pacienta
 - **Index** - Záznam o tom, na kterém uzlu ze nachází jaká **Dokumentace**
-- **Centrální uzel** - Uzel, kde se ukládá **Dokumentace**, **Index** a odkud se distribuují okolním uzlům a doktorům
-	- *lokální* - uzel, kam doktor nahrává  **Dokumentaci** (myšleno v kontextu doktora)
-	- *vzdálený* - ostatní uzly, kde se nachází dokumentace, doktor na něj dokumentaci nenahrává, pouze ji může získat (myšleno v kontextu doktora)
+- **Centrální uzel** - Uzel, kde se ukládá **Dokumentace**, **Index** a odkud se distribuují okolním uzlům a lékařům
+	- *lokální* - uzel, kam lékař nahrává  **Dokumentaci** (myšleno v kontextu lékaře)
+	- *vzdálený* - ostatní uzly, kde se nachází dokumentace, lékař na něj dokumentaci nenahrává, pouze ji může získat (myšleno v kontextu lékaře)
+- **Zdravotnický IS** - informační systém lékaře pro správu pacientů
+- **Login** - přihlašovací jméno
+- **Token** - slouží spolu s uživatelským přihlašovacím jménem a autorizaci a autentizaci požadavků
+- **MTBF** - Mean Time Between Failures - střední doba mezi selháními 
+- **MTTR** - Mean Time To Repair - střední doba nutná pro opravu
+- **DoS** - Denial of Service - útok pomocí přehlcení požadavky
+- **TLS** - Transport Layer Security - kryptografický protokol pro zabezpečení komunikace
