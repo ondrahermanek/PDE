@@ -55,7 +55,7 @@ Jako jeho identifikátor bude považována kombinace názvu jeho zdravotnického
 ##### Index #####
 Pro **Index** očekáváme řádově desítky milionů záznamů, proto bude kladen důraz na minimální velikost jednoho záznamu. Ideálně tedy: 
 
-<code>ID pacienta | ID vyšetřujícího doktora | Datum vyšetření | ID zákroku | ID zařízení, kde je **Dokumentace** uložena</code>
+<code> pacientId | doktorId | datum | typVysetreni | uzelId | dokumentId</code>
 
 Jako ID pacienta by šlo použít jeho rodné číslo, to ale není unikátní, proto jako ID bude použijeme rodné číslo kombinované s celým jménem pacienta.
 
@@ -67,11 +67,14 @@ ID doktora bude bráno jako kombinace názvu informačního systému, který pou
 - Odpověď Indexu: <br> <code>dokumentId | uzelId | pacientId | doktorId | doktorTelefon | doktorInfo | typVysetreni | datumZmeny | pacientInfo</code>
 - Žádost o dokumentaci: <br> <code> uzelId | dokumentId</code>
 - Odpověď s dokumentací: <br> vlastní **Dokumentace**
-- Vložení **Dokumentace**: <br> <code>datumVytvoreni | datumAkce | doktorId | pacientId | typVysetreni | typAkce | vlastni dokumentace </code>
-- Aktualizace **Dokumentace**: <br> <code>dokumentId | datumVytvoreni | datumAkce | doktorId | pacientId | typVysetreni | typAkce | vlastni dokumentace </code>
+- Vložení **Dokumentace**: <br> <code>datumVytvoreni | datumAkce | doktorId | pacientId | typVysetreni | vlastni dokumentace </code>
+- Aktualizace **Dokumentace**: <br> <code>dokumentId | datumVytvoreni | datumAkce | doktorId | pacientId | typVysetreni | vlastni dokumentace </code>
 - Smazání **Dokumentace**: <br> <code> dokumentID </code>
+- Synchronizace indexu: <br> <code>datumVytvoreni | datumAkce | doktorId | pacientId | typVysetreni | dokumentaceId | pacientInfo</code>
 - Aktualizace informací o pacientovi: <br> <code> pacientID | pacientInfo </code>
-- Synchronizace indexu: <br> <code>datumVytvoreni | datumAkce | doktorId | pacientId | typVysetreni | typAkce | dokumentaceId | pacientInfo</code>
+- Aktualizace informací o lékaři: <br> <code> doktorInfo </code>
+- Žádost o informace o lékaři: <br> <code> doktorId <code>
+- Odpověď s informacemi o lékaři: <br> <code> doktorInfo <code>
 
 ### Výkon systému ###
 Nejdůležitější výkonostní požadavky na systém jsou:
