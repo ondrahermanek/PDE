@@ -164,7 +164,7 @@ Tady se počítá s tím, že přístup k datům může být důležitý. To zna
 
 Od serverů v nemocnicích požadujeme:
 
-* připojení k Internetu rychlostí alespoň 2 Mb/s v obou směrech (1Mb/s na komunikaci s ostatními ulzly, 1Mb/s na komunikaci s lékaři)
+* připojení k Internetu rychlostí alespoň 2 Mb/s v obou směrech (1Mb/s v obou směrech na komunikaci s ostatními ulzly, 1Mb/s v obou směrech na komunikaci s lékaři)
 * místo na disku pro data 1 TB na každý rok (700 GB data, která patří tomuto uzlu; 14 GB index dat všech uzlů)
 * 2 GHz CPU, 1 GB RAM (požadavky nejsou vysoké, protože sever nebude provádět složité výpočty)
 * servery i disky zdvojené, pro zajištění vyšší spolehlivosti
