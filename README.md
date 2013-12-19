@@ -14,15 +14,15 @@ PDE - Patient Documentation Exchange
 ### Motivace ###
 Lékař při každé návštěvě (nového) pacienta zjišťuje jeho anamnézu - zdravotní stav, předchozí nemoci, vyšetření, operace, rodinnou anamnézu a podobně. Pacient navíc nemusí všechny informace vědět, nebo může některé úmyslně zatajit. Navíc tento proces lékaři zabírá nemalé množství času.
 
-Současný stav výměny dokumentace mezi lékaři je následující: když doktor posílá pacienta za jiným doktorem na nějaké vyšetření, vytiskne mu jeho kartu, kterou musí pacient donést tomu jinému doktorovi. Tak karta ale obsahuje jen informace od prvního doktora. Po vyšetření by pacient kartu měl správně odevzdat svému obvodnímu doktorovi, ale často se tak neděje a pacienti si kartu nechávají, ztrácí nebo vyhazují.
+Současný stav výměny dokumentace mezi lékaři je následující: pokud lékař posílá pacienta za jiným lékařem na nějaké vyšetření, vytiskne mu jeho kartu, kterou musí pacient s sebou donést zmíněnému lékaři. Karta tedy obsahuje jen informace od prvního lékaře. Po vyšetření by měl správně pacient kartu odevzdat svému obvodnímu lékaři, ale často se tak neděje a pacienti si kartu nechávají, ztrácí nebo vyhazují.
 
-O řešení tohoto problému se již v minulosti snažil projekt **IZIP**, který neuspěl především z důvodu, že systém byl centralizovaný v rukou pojišťoven, které kontrolovali, jestli doktoři dělají, co vykazují, že dělají (což někdy kvůli přísným limitům doktoři obcházeli v dobré víře lépe pomoci více lidem).
+O řešení tohoto problému se již v minulosti snažil projekt **IZIP**, který neuspěl především z důvodu, že systém byl centralizovaný a v rukou pojišťoven, které kontrolovaly, zdali doktoři provedli vše, co vykázali (což často kvůli přísným limitům doktoři v dobré víře a snaze pomoci lidem obcházeli)
 
 ### Cíl projektu ###
-Cílem tohoto projektu je navrhnout systém, který umožní doktorům získat celkovou dokumentaci pacienta a obohacovat ji. Systém bude o každém pacientovi obsahovat seznam všech návštěv u doktorů, popis vyšetření a nějakou výstupní zprávu. Tato dokumentace bude přístupná na vyžádání - doktor při vyšetření, běhěm výjezdu sanitního vozu.
+Cílem tohoto projektu je navrhnout systém, který umožní lékařům získat celkovou dokumentaci pacienta a obohacovat ji. Systém bude o každém pacientu udržovat seznam všech jeho návštěv lékařů, popis vyšetření a výstupní zprávu. Tato dokumentace bude přístupná na vyžádání (při vyšetření, běhěm výjezdu sanitního vozu).
 
 ### Předpokládaná ideální situace ###
-Všichni dokotři a zdravotnická zařízení mají telefon a přístup k počítači se zabezpečeným internetovým připojením, díky kterému budou moci pacientovu dokumentaci sdílet. Všichni doktoři se sdílením dokumentace souhlasí, všichni pacienti také.
+Všichni lékaři a zdravotnická zařízení vlastní telefon a počítač se zabezpečeným internetovým připojením, díky kterému budou moci pacientovu dokumentaci sdílet. Všichni lékaři se sdílením dokumentace souhlasí, všichni pacienti také.
 
 
 
@@ -30,42 +30,26 @@ Všichni dokotři a zdravotnická zařízení mají telefon a přístup k počí
 
 ### Celkový pohled ###
 ![Component Model](doc/ComponentModel.png)
-Rozdělení systému na komponenty
 
-TODO - Každý zdravotní informační systém komunikuje s centralizovaným uzlem přes zabezpečené Web API. Každý požavek na centralizovaný uzel je před zpracováním verifikován - proběhne autorizace a autentizace zdravotnického systému, který požadavek vytovořil, zároveň proběhne kontrola proti zahlcení požadavky. Zdravotnický systém může vyžádat **Index** se záznamy pacienta, ktérého zrovna léčí, nebo přímo zvolenou **Dokumentace**.
+Každý zdravotní informační systém komunikuje s centralizovaným uzlem přes zabezpečené Web API. Každý požavek na centralizovaný uzel je před zpracováním verifikován - proběhne autorizace a autentizace zdravotnického systému, který požadavek vytovořil, zároveň proběhne kontrola proti zahlcení požadavky. Zdravotnický systém si může vyžádat **Index** se záznamy pacienta, ktérého zrovna léčí, nebo přímo zvolenou **Dokumentace**.
 
 ### Uložení informací ###
-Systém může uchovávat dokumentaci na jednom místě, to má ale mnoho nevýhod - dostupnost, komunikační náročnost, ochrana osobních údajů, veliké množství dat. Tato centra se dají duplikovat - ochrana proti výpadku, ale tím dostáváme distribuovaný systém, kterému roste náročnost na synchronizaci mezi jednotlivými uzly.
+Systém bude centralizovat dokumentaci v uzlech (jednotlivé nemocnice) a bude distribuovat **Index** - seznam pacientů, jejich navštěv u lékařů a kód vyšetření. Tento index bude určovat, na kterém uzlu leží určitá konkrétní **Dokumentace**.
 
-Proto navrhujeme kompromisní řešení - centralizovat dokumentaci v uzlech a distribuovaně šířit pouze **Index** - seznam pacientů a jejich navštěv u doktorů a kódu vyšetření. Tento index bude určovat, na kterém uzlu leží jaká konkrétní **Dokumentace**.
+##### Dokumentace pacientů #####
+Budou zřízeny centralizované uzly v nemocnicích a každému zdravotníkovi bude určen (při registraci přiřazen) jeden uzel, který bude uchovávat dokumentaci jeho pacientů.
 
-##### Dokumentace pacientů - TODO #####
-**Dokumentace** se bude uchovávat centralizovaně v tzv. uzlech. Doktoři budou dokumentaci na tyto uzly nahrávat - doktoři v nemocnicích přímo v rámci nemocničního systému, soukromí doktoři přes nějaké webové rozhraní nebo pomocí svých informačních systémů, které budou s tímto celým systémem komunikovat. Jednotlivé uzly se budou starat o zabezpečení osobních údajů, o dostupnost dokumentace a o aktualizaci **Index**u.
-
-Logicky nejsprávnější by bylo uchovávat dokumentaci paciantů u jejich obvodních lékařů, kteří by o svých pacientech měli vědět vše (tedy mít veškerou jejich dokumentaci). To by znamenalo vybavit každého doktora serverem, který bude idálně 24/7/365 dostupný a zabezpečený proti zneužití. 
-
-Proto budou zřízeny centralizované uzly v nemocnicích a každému zdravotníkovi bude určen (přiřazen pri registraci) jeden uzel, který bude uchovávat dokumentaci jeho paicentů.
+**Dokumentace** se bude uchovávat centralizovaně v uzlech (nemocnicích). Lékaři budou dokumentaci na tyto uzly nahrávat - lékaři v nemocnicích přímo v rámci nemocničního systému, soukromí lékaři přes webové rozhraní nebo pomocí svých informačních systémů, které budou s tímto systémem komunikovat. Jednotlivé uzly se budou starat o zabezpečení osobních údajů, o dostupnost dokumentace a o aktualizaci **Index**u.
 
 ### Přístup k dokumentaci ###
-##### Jak bude dokumentace přístupná? #####
-- Všichni vidí vše - není ideální, doktoři by neměli nahlížet do dokumentace cizích pacientů, pokud to není potřeba
-- Nikdo nevidí nic - nebylo by co sdílet
-- Přístupné jen něco - relevantní data mohou být zrovna nepřístupná
-- Výchozí dostupnost?
+Veškeré **Dokumentace** budou přístupné všem doktorům. Pro ochranu osobních údajů proti zneužití bude každá akce - vytvoření/úprava/mazání/vyžádání **Dokumentace** - zaznamenána. Bude tedy možné dohledat, který lékař přistoupil k jaké **Dokumentaci**.
 
-##### Kdo bude určovat viditelnost informací? #####
-- Pacient určuje, co bude dostupné a co ne - jak to změní?
-- Doktor určuje, co bude dostupné a co ne - měl by mít pacientův souhlas?
-
-##### Zvolené řešení #####
-Veškeré **Dokumentace** budou přístupné všem doktorům. Pro ochranu osobních údajů proti zneužití bude každá akce - vytvoření/úprava/mazání/vyžádání **Dokumentace** - zalogována. Bude tedy možné dohledat, který doktor přistoupil k jaké **Dokumentaci**.
-
-Toto řešení bylo zvoleno, protože omezování přístupu doktorů k dokumentaci by vedlo k problémům (např. doktor nemůže vyšetřit pacienta, protože mu omylem nebylo dáno právo přístupu k jeho dokumentaci). Na druhou stranu, do systému mají přístup jen autentizovaní doktoři, takže riziko zneužití zřejmě není tak velké (ve srovnání se systémy, které jsou veřejně přístupné).
+Toto řešení bylo zvoleno, protože omezování přístupu lékařů k dokumentaci by vedlo k rozsáhlým komplikacím (lékař nemůže vyšetřit pacienta, protože mu omylem nebylo dáno právo přístupu k jeho dokumentaci). Na druhou stranu, do systému mají přístup jen autentizovaní doktoři, takže riziko zneužití není nepřiměřeně vysoké (ve srovnání se systémy, které jsou veřejně přístupné).
 
 ### Registrace lékařů ###
-Každý doktor se zaregistruje do systému PDE, dostane pevné ID a náhodný token, pod kterým bude identifikován v rámci systému, rovněž mu bude přiřazen centrální uzel, se kterým bude jeho zdravotnický IS komunikovat. Při registraci uvede rovněž telefonní číslo a další údaje. 
+Každý lékař se zaregistruje do systému PDE, dostane pevný identifikátor a náhodně vybraný token, pod kterým bude identifikován v rámci systému, rovněž mu bude přiřazen uzel, se kterým bude jeho zdravotnický informační systém komunikovat. Při registraci uvede rovněž telefonní číslo a další potřebné údaje. 
 
-Jako jeho ID bude považována kombinace jeho zdravotnického IS a jeho loginu do jeho systému. Token mu bude vygenerován náhodně a bude sloužit k validaci požadavků vyslaných zdravotnikým IS doktora.
+Jako jeho identifikátor bude považována kombinace názvu jeho zdravotnického informačního systému a přihlašovacích údajů do jeho systému. Token mu bude vygenerován náhodně a bude sloužit k validaci požadavků vyslaných zdravotnickým informačním systémem lékaře.
 
 ### Vyměňované informace ###
 ##### Index #####
@@ -81,7 +65,7 @@ ID doktora bude bráno jako kombinace názvu informačního systému, který pou
 TODO: přidal bych aspoň trochu vysvětlení, protože mě třeba není jasné, proč žádost o index obsahuje `doktorId` (kterého doktora?) a nebo co znamenají `[]` (kolekce?)
 
 - Žádost o Index: <br> <code>datum | doktorId | pacientId</code>
-- Odpověď Indexu: <br> <code>[ dokumentId | uzelId | pacientId | doktorId | doktorTelefon | doktorInfo | typVysetreni | datumZmeny | pacientInfo ]</code>
+- Odpověď Indexu: <br> <code>dokumentId | uzelId | pacientId | doktorId | doktorTelefon | doktorInfo | typVysetreni | datumZmeny | pacientInfo</code>
 - Žádost o dokumentaci: <br> <code>datum | doktorId | pacientId | uzelId | document</code>
 - Odpověď s dokumentací: <br> vlastní **Dokumentace** (TODO: nebudou potřeba nějaká metadata?)
 - Vložení/Aktualizace/Smazání **Dokumentace**: (TODO: na smazání bude stačit ID, ale to znamená, že by to chtělo přidat odpověď na vložení; nechtělo by to aktualizaci informací o pacientovi zvlášt?) <br> <code>datumVytvoreni | datumAkce | doktorId | pacientId | typVysetreni | typAkce | vlastni dokumentace | pacientInfo</code>
